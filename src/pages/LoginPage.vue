@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+    <img class="LoginImg" src="@/assets/loginImage.png" width="600" height="250" />
+    
     <h1 class="title">Login</h1>
     <b-form @submit.prevent="onLogin">
       <b-form-group
@@ -47,6 +49,7 @@
         Do not have an account yet?
         <router-link to="register"> Register in here</router-link>
       </div>
+      
     </b-form>
     <b-alert
       class="mt-2"
@@ -60,6 +63,7 @@
     <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card> -->
+
   </div>
 </template>
 
@@ -72,8 +76,8 @@ export default {
       form: {
         username: "",
         password: "",
-        submitError: undefined
-      }
+        submitError: undefined,
+      },
     };
   },
   validations: {
@@ -109,6 +113,17 @@ export default {
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
+
+
+        let lastSeen = await this.axios.get(
+          this.$root.store.server_domain + "/users/lastWatched"
+        );
+        sessionStorage.setItem(
+          "watchedRecipes",
+          JSON.stringify(lastSeen.data)
+        );
+
+
         this.$router.push("/");
       } catch (err) {
         console.log(err.response);
@@ -132,5 +147,14 @@ export default {
 <style lang="scss" scoped>
 .container {
   max-width: 400px;
+}
+.title {
+  text-align: center;
+}
+.LoginImg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 </style>

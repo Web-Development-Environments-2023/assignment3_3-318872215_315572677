@@ -9,6 +9,7 @@
         <RecipePreview class="recipePreview" :recipe="r" />
       </b-col>
     </b-row>
+    <b-button class="getThreeRandom_btn" @click="updateRecipes" variant="secondary">More Recipe</b-button>
   </b-container>
 </template>
 
@@ -42,8 +43,9 @@ export default {
         );
 
         // console.log(response);
-        const recipes = response.data.recipes;
         this.recipes = [];
+        const recipes = response.data;
+        console.log(recipes);
         this.recipes.push(...recipes);
         // console.log(this.recipes);
       } catch (error) {
@@ -57,5 +59,12 @@ export default {
 <style lang="scss" scoped>
 .container {
   min-height: 400px;
+}
+.getThreeRandom_btn{
+  margin-left: 170px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 200px;
+  
 }
 </style>
