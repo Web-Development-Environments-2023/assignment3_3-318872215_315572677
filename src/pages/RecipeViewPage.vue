@@ -56,10 +56,11 @@ export default {
       try {
         response = await this.axios.get(
           // "https://test-for-3-2.herokuapp.com/recipes/info",
-          this.$root.store.server_domain + "/recipes/info",
-          {
-            params: { id: this.$route.params.recipeId }
-          }
+          this.$root.store.server_domain + "/recipes/"+this.$route.params.recipeId,
+          // this.$root.store.server_domain + "/recipes/info",
+          // {
+          //   params: { id: this.$route.params.recipeId }
+          // }
         );
 
         // console.log("response.status", response.status);
@@ -70,37 +71,66 @@ export default {
         return;
       }
 
+
       let {
-        analyzedInstructions,
-        instructions,
-        extendedIngredients,
-        aggregateLikes,
+        id,
+        title,
         readyInMinutes,
         image,
-        title
-      } = response.data.recipe;
+        aggregateLikes,
+        vegan,
+        vegetarian,
+        glutenFree,
+        instructions,
+        servings,
+        ingredients
+      } = response.data;
+      // let {
+      //   analyzedInstructions,
+      //   instructions,
+      //   extendedIngredients,
+      //   aggregateLikes,
+      //   readyInMinutes,
+      //   image,
+      //   title
+      // } = response.data.recipe;
 
-      let _instructions = analyzedInstructions
-        .map((fstep) => {
-          fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-          return fstep.steps;
-        })
-        .reduce((a, b) => [...a, ...b], []);
+      // let _instructions = analyzedInstructions
+      //   .map((fstep) => {
+      //     fstep.steps[0].step = fstep.name + fstep.steps[0].step;
+      //     return fstep.steps;
+      //   })
+      //   .reduce((a, b) => [...a, ...b], []);
 
       let _recipe = {
-        instructions,
-        _instructions,
-        analyzedInstructions,
-        extendedIngredients,
-        aggregateLikes,
+        id,
+        title,
         readyInMinutes,
         image,
-        title
+        aggregateLikes,
+        vegan,
+        vegetarian,
+        glutenFree,
+        instructions,
+        servings,
+        ingredients
       };
+      // let _recipe = {
+      //   instructions,
+      //   _instructions,
+      //   analyzedInstructions,
+      //   extendedIngredients,
+      //   aggregateLikes,
+      //   readyInMinutes,
+      //   image,
+      //   title
+      // };
 
       this.recipe = _recipe;
+
     } catch (error) {
       console.log(error);
+
     }
   }
 };
