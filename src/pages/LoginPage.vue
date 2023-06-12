@@ -115,15 +115,6 @@ export default {
         this.$root.store.login(this.form.username);
 
 
-        let lastSeen = await this.axios.get(
-          this.$root.store.server_domain + "/users/lastWatched"
-        );
-        sessionStorage.setItem(
-          "watchedRecipes",
-          JSON.stringify(lastSeen.data)
-        );
-
-
         this.$router.push("/");
       } catch (err) {
         console.log(err.response);

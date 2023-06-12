@@ -39,6 +39,11 @@
           const response = await this.axios.get(
             this.$root.store.server_domain + "/users/lastWatched",
           );
+
+        sessionStorage.setItem(
+          "watchedRecipes",
+          JSON.stringify(response.data)
+        );
   
           // console.log(response);
           this.recipes = [];

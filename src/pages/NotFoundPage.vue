@@ -4,3 +4,12 @@
     <router-link to="/" exact>ET Go Home</router-link>
   </div>
 </template>
+
+
+<style>
+.container {
+  background-image: url('/src/assets/FNF.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
