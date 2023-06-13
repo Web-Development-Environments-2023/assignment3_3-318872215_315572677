@@ -21,7 +21,7 @@
         <b-form-invalid-feedback v-else-if="!$v.form.username.length">
           Username length should be between 3-8 characters long
         </b-form-invalid-feedback>
-        <b-form-invalid-feedback v-if="!$v.form.username.alpha">
+        <b-form-invalid-feedback v-else-if="!$v.form.username.alpha">
           Username alpha
         </b-form-invalid-feedback>
       </b-form-group>
@@ -108,12 +108,10 @@
           Your password should be <strong>strong</strong>. <br />
           For that, your password should be also:
         </b-form-text>
-        <b-form-invalid-feedback
-          v-if="$v.form.password.required && !$v.form.password.length">
+        <b-form-invalid-feedback v-if="$v.form.password.required && !$v.form.password.length">
           Have length between 5-10 characters long
         </b-form-invalid-feedback>
-        <b-form-invalid-feedback
-          v-if="!$v.form.password.valid">
+        <b-form-invalid-feedback v-if="!$v.form.password.valid">
           Your password need at least one number and one special letter
         </b-form-invalid-feedback>
       </b-form-group>
@@ -277,9 +275,11 @@ export default {
             email: this.form.email
           }
         );
+        this.$root.toast("Success", "A new user has been added", "success");
         this.$router.push("/login");
         // console.log(response);
       } catch (err) {
+        this.$root.toast("Input Error", err.response.data.message, "danger");
         console.log(err.response);
         this.form.submitError = err.response.data.message;
       }

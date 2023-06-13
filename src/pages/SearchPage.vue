@@ -6,11 +6,17 @@
              v-model="form.query">
       <button class="btn" type="submit">Search</button>
     </form>
+    <RecipePreviewListSearch title="search results" query="" class="RecipePreviewListSearch center"  /> 
+
   </div>
 </template>
 
 <script>
+  import RecipePreviewListSearch from "../components/RecipePreviewListSearch";
   export default {
+    components: {
+      RecipePreviewListSearch,
+    },
     name: 'SearchPage',
     data() {
       return {
