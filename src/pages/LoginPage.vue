@@ -131,13 +131,14 @@ export default {
             password: this.form.password
           }
         );
-        // console.log(response);
+        console.log(response);
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
+        // this.$root.store.login(response.data);
 
-
-        this.$router.push("/");
+        if (this.$root.name !== "main") 
+          this.$router.push("/");
       } catch (err) {
         this.$root.toast("Input Error", err.response.data.message, "danger");
         console.log(err.response);

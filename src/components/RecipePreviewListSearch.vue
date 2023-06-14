@@ -25,8 +25,8 @@
         type: String,
         required: true
       },
-      query: {
-        type: String,
+      formData: {
+        type: Object,
         required: true
       }
     },
@@ -40,25 +40,34 @@
     },
     methods: {
       async updateRecipes() {
+        console.log("test1");
+        console.log(this.title);
+        console.log("test2");
+
+        console.log(this.formData);
+        console.log("test3");
+
+        console.log("test4");
+
         try {
-            const response = await this.axios.post(
-            this.$root.store.server_domain + "/recipes/search",
-            {
-                query: "s",
-                number: 2,
-                cuisine: "Italian",
-                diet: "Vegetarian",
-                intolerance: "Seafood",
-                fillIngredients: true,
-                addRecipeInformation: true
-            }
-            );
+            // const response = await this.axios.post(
+            // this.$root.store.server_domain + "/recipes/search",
+            // {
+            //     query: formData.query,
+            //     number: 2,
+            //     cuisine: "Italian",
+            //     diet: "Vegetarian",
+            //     intolerance: "Seafood",
+            //     fillIngredients: true,
+            //     addRecipeInformation: true
+            // }
+            // );
         //   const response = await this.axios.get(
         //     this.$root.store.server_domain + "/recipes/random",
         //     // "https://test-for-3-2.herokuapp.com/recipes/random"
         //   );
   
-          // console.log(response);
+          console.log(response);
           this.recipes = [];
           const recipes = response.data;
           console.log(recipes);

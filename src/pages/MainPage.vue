@@ -1,18 +1,50 @@
 <template>
   <div class="container">
-    <h1 class="title">Grandma's recipes and others</h1>
-    <RecipePreviewList title="Explore this recipes" class="RandomRecipes center" /> 
-    <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link>
+
+    <b-row>
+      <b-col cols="3">
+        <RecipePreviewList title="Explore this recipes" class="RandomRecipes center" /> 
+      </b-col>
+      <b-col cols="6"></b-col>
+      <b-col cols="3">
+        <Login v-if="!$root.store.username"></Login>
+
+        <RecipePreviewList v-else title="Last Viewed Recipes" :recipes="lastViewedRecipes || []" />
+        
+        <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link> -->
+        <RecipePreviewListWatched title="Last Viewed Recipes" :class="{RandomRecipes: true, blur: !$root.store.username, center: true}" disabled>
+        </RecipePreviewListWatched>
+      </b-col>
+    </b-row>
+
+
+
+
+    <!-- <b-row>
+      <b-col cols="3"></b-col>
+      <b-col>
+        <h1 class="title">Grandma's recipes and others</h1>
+      </b-col>
+    </b-row>
+
+    <b-row>
+      <b-col cols="3">
+        <RecipePreviewList title="Explore this recipes" class="RandomRecipes center" /> 
+      </b-col>
+    </b-row>
+    
+    <b-col cols="6">
+
+    </b-col>
+
+    <b-col cols="3">
+      <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link>
+      <RecipePreviewListWatched title="Last Viewed Recipes" :class="{RandomRecipes: true, blur: !$root.store.username, center: true}" disabled>
+      </RecipePreviewListWatched>
+    </b-col> -->
+    
     <!-- {{ !$root.store.username }} -->
-    <RecipePreviewListWatched
-      title="Last Viewed Recipes"
-      :class="{
-        RandomRecipes: true,
-        blur: !$root.store.username,
-        center: true
-      }"
-      disabled
-    ></RecipePreviewListWatched>
+   
     <!-- <div
       style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
     >
@@ -23,11 +55,13 @@
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
-import RecipePreviewListWatched from "../components/RecipePreviewListWatched.vue"
+import RecipePreviewListWatched from "../components/RecipePreviewListWatched.vue";
+import Login from "../pages/LoginPage.vue";
 export default {
   components: {
     RecipePreviewList,
-    RecipePreviewListWatched
+    RecipePreviewListWatched,
+    Login
   }
 };
 </script>
