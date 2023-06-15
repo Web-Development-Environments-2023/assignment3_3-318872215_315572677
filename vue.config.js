@@ -7,5 +7,13 @@ module.exports = {
     // host: oran-shay.cs.bgu.ac.il
     host: "localhost"
   }
+
+  // devServer: {
+  //   // host: "132.72.65.211"
+  //   host: "127.0.0.1",
+  //   port: 80
+  // }
+
+
   // publicPath: process.env.NODE_ENV === "production" ? "/LAB12/" : "/"
 };

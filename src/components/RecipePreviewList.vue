@@ -1,3 +1,22 @@
+<!-- <template>
+  <b-container>
+    <h3>
+      {{ title }}:
+      <slot></slot>
+    </h3>
+    <table class="recipe-table">
+      <tbody>
+        <tr v-for="r in recipes" :key="r.id">
+          <td class="recipe-name">
+            <RecipePreview class="recipePreview" :recipe="r" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <b-button class="getThreeRandom_btn" @click="updateRecipes" variant="secondary">More Recipe</b-button>
+  </b-container>
+</template> -->
+
 <template>
   <b-container>
     <h3>
@@ -39,6 +58,7 @@ export default {
       try {
         const response = await this.axios.get(
           this.$root.store.server_domain + "/recipes/random",
+          { withCredentials: true }
           // "https://test-for-3-2.herokuapp.com/recipes/random"
         );
 
@@ -60,11 +80,39 @@ export default {
 .container {
   min-height: 400px;
 }
-.getThreeRandom_btn{
-  margin-left: 170px;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  width: 200px;
-  
+
+.recipe-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.recipe-table th,
+.recipe-table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.recipe-table th {
+  background-color: #f2f2f2;
+}
+
+.recipe-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.recipe-name {
+  width: 40%;
+}
+
+.getThreeRandom_btn {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 </style>

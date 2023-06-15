@@ -2,7 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 import VueScrollFixedNavbar from "vue-scroll-fixed-navbar";
 
 Vue.use(VueScrollFixedNavbar);
@@ -95,12 +95,12 @@ const shared_data = {
   username: localStorage.username,
   // user_
   search_url_: localStorage.search_url_,
-  server_domain: "http://localhost:3000",
-  //server_domain: "https://moria-shalev.cs.bgu.ac.il",
+  server_domain: "http://localhost:3000" || "http://127.0.0.1:3000",
   login(username) {
     localStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
+    // VueCookies.setItem(this.username, this.username);
   },
   logout() {
     console.log("logout");

@@ -1,49 +1,23 @@
 <template>
-  <div class="container">
+  <div id="main-container">
+    <!-- <h1 class="title">Grandma's recipes and others</h1> -->
+      <b-row>
+        <b-col cols="3" class="left-column">
+          <RecipePreviewList title="Explore this recipes" class="RandomRecipes center" :recipes="randomRecipes || []" /> 
+        </b-col>
+        <b-col cols="6">
+          
+        </b-col>
+        <b-col cols="3" class="right-column">
+          <Login v-if="!$root.store.username"></Login>
 
-    <b-row>
-      <b-col cols="3">
-        <RecipePreviewList title="Explore this recipes" class="RandomRecipes center" /> 
-      </b-col>
-      <b-col cols="6"></b-col>
-      <b-col cols="3">
-        <Login v-if="!$root.store.username"></Login>
-
-        <RecipePreviewList v-else title="Last Viewed Recipes" :recipes="lastViewedRecipes || []" />
-        
-        <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link> -->
-        <RecipePreviewListWatched title="Last Viewed Recipes" :class="{RandomRecipes: true, blur: !$root.store.username, center: true}" disabled>
-        </RecipePreviewListWatched>
-      </b-col>
-    </b-row>
-
-
-
-
-    <!-- <b-row>
-      <b-col cols="3"></b-col>
-      <b-col>
-        <h1 class="title">Grandma's recipes and others</h1>
-      </b-col>
-    </b-row>
-
-    <b-row>
-      <b-col cols="3">
-        <RecipePreviewList title="Explore this recipes" class="RandomRecipes center" /> 
-      </b-col>
-    </b-row>
-    
-    <b-col cols="6">
-
-    </b-col>
-
-    <b-col cols="3">
-      <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link>
-      <RecipePreviewListWatched title="Last Viewed Recipes" :class="{RandomRecipes: true, blur: !$root.store.username, center: true}" disabled>
-      </RecipePreviewListWatched>
-    </b-col> -->
-    
-    <!-- {{ !$root.store.username }} -->
+          <RecipePreviewListWatched v-else title="Last watched recipes" :recipes="lastWatchedRecipes || []" />
+          
+          <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link> -->
+          <!-- <RecipePreviewListWatched title="Last Viewed Recipes" :class="{RandomRecipes: true, blur: !$root.store.username, center: true}" disabled>
+          </RecipePreviewListWatched> -->
+        </b-col>
+      </b-row>
    
     <!-- <div
       style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
@@ -62,13 +36,41 @@ export default {
     RecipePreviewList,
     RecipePreviewListWatched,
     Login
-  }
+  },
+  data() {
+    return {
+      randomRecipes: [],
+      lastWatchedRecipes: []
+    };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+#main-container{
+  height: 100vh;
+  width: 100vw;
+}
+// .column-container {
+//   display: flex;
+//   justify-content: space-between;
+//   height: 100vh;
+//   width: 100vw;
+// }
+
+// .left-column {
+//   float: left;
+// }
+
+// .right-column {
+//   float: right;
+// }
+.title{
+  margin-bottom: 20px;
+}
 .RandomRecipes {
   margin: 10px 0 10px;
+  position: relative;
 }
 .blur {
   -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */

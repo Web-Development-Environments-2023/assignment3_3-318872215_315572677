@@ -98,16 +98,16 @@ export default {
     form: {
       username: {
         required,
-        length: (u) => minLength(3)(u) && maxLength(8)(u),
+        // length: (u) => minLength(3)(u) && maxLength(8)(u),
         alpha
       },
       password: {
         required,
-        valid: function(value) {
-          const isNumberInclude = /[0-9]/.test(value);
-          const isSpecialIncule = /[!@#$%^&*]/.test(value);
-          return isNumberInclude && isSpecialIncule;
-        },
+        // valid: function(value) {
+        //   const isNumberInclude = /[0-9]/.test(value);
+        //   const isSpecialIncule = /[!@#$%^&*]/.test(value);
+        //   return isNumberInclude && isSpecialIncule;
+        // },
         length: (p) => minLength(5)(p) && maxLength(10)(p)
       }
     }
@@ -137,8 +137,9 @@ export default {
         this.$root.store.login(this.form.username);
         // this.$root.store.login(response.data);
 
-        if (this.$root.name !== "main") 
+        if (this.$route.path !== "/") {
           this.$router.push("/");
+        }
       } catch (err) {
         this.$root.toast("Input Error", err.response.data.message, "danger");
         console.log(err.response);
