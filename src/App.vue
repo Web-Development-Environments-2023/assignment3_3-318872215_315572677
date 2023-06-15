@@ -4,12 +4,12 @@
       <div class="header-container">
         <div class="header-left">
           <!-- left bar nav -->
-          <router-link :to="{ name: 'main' }"> Vue Recipes</router-link>|
-          <router-link :to="{ name: 'search' }"> Search </router-link>|
-          <router-link :to="{ name: 'about' }"> About</router-link>|
+          <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
+          <router-link :to="{ name: 'search' }">Search 🔎</router-link>|
+          <router-link :to="{ name: 'about' }">About</router-link>|
 
           <!-- when user log in create recipe & presonal show -->
-          <button v-if="$root.store.username" class="created-recipe" @click="showRecipeModal">Create Recipe</button>
+          <button v-if="$root.store.username" class="created-recipe" @click="showRecipeModal">Create Recipe📝</button>
           <div v-if="!!$root.store.username" class="dropdown">
             <button class="dropdown-button">Personal</button>
             <div class="dropdown-content">
@@ -22,7 +22,7 @@
 
         <!-- right bar nav -->
         <div v-if="!$root.store.username" class="guest">
-          <span>Guest:</span>
+          <span>hello guest:</span>
           <router-link :to="{ name: 'register' }">Register</router-link>
           <router-link :to="{ name: 'login' }">Login</router-link>
         </div>
@@ -30,12 +30,10 @@
         <div v-if="!!$root.store.username" class="dropdown">
           <button class="dropdown-button"><span>{{ $root.store.username }}</span></button>
           <div class="dropdown-content">
-            <tr><router-link :to="{ name: 'account' }">Account</router-link></tr>
-            <tr><button class="logout-btn" @click="Logout">Logout</button></tr>
+            <tr><router-link :to="{ name: 'account' }">Account⚙️</router-link></tr>
+            <tr><button class="logout-btn" @click="Logout">Logout😥</button></tr>
           </div>
         </div>
-
-
 
         <!-- <div v-else class="user-login">
           <button class="dropdown-button"><span>{{ $root.store.username }}</span></button>
@@ -57,6 +55,16 @@
       <router-view />
     </main>
 
+
+    <!-- Model for create recipe -->
+    <b-modal ref="recipe-modal" hide-footer title="Create new recipe" size="xl">
+      <div class="d-block text-center">
+        <CreateRecipeModel></CreateRecipeModel>
+      </div>
+      <b-button class="mt-3" variant="outline-info" block @click="hideRecipeModal">Close Me</b-button>      
+    </b-modal>
+
+
     <!-- footer -->
     <footer>
       <div class="footer-container">
@@ -68,50 +76,34 @@
 </template>
 
 <script>
+import CreateRecipeModel from './components/CreateRecipeModel.vue';
 export default {
-  name: "App",
-  data() {
-    return {
-      isLogged: !!this.$root.store.username,
-      modalMessage: "",
-      showCreateRecipe: false
-    };
-  },
-  methods: {
-    Logout() {
-      this.$root.store.logout();
-      this.$root.toast("Logout", "User logged out successfully", "success");
-
-      this.$router.push("/").catch(() => {
-        this.$forceUpdate();
-      });
+    name: "App",
+    data() {
+        return {
+            showCreateRecipe: false
+        };
     },
-    showModal(message) {
-          this.modalMessage = message;
-          this.$refs["my-modal"].show();
-      },
-    hideModal() {
-          this.modalMessage = "";
-          this.$refs["my-modal"].hide();
-      },
-    toggleModal() {
-          // We pass the ID of the button that we want to return focus to
-          // when the modal has hidden
-          this.$refs["my-modal"].toggle("#toggle-btn");
-      },
-    showRecipeModal(){
-          this.$refs["recipe-modal"].show();
-      },
-    hideRecipeModal(){
-          this.$refs["recipe-modal"].hide();
-      }
-  }
+    methods: {
+        Logout() {
+            this.$root.store.logout();
+            this.$root.toast("Logout", "User logged out successfully", "success");
+            this.$router.push("/").catch(() => {
+                this.$forceUpdate();
+            });
+        },
+        showRecipeModal() {
+            this.$refs["recipe-modal"].show();
+        },
+        hideRecipeModal() {
+            this.$refs["recipe-modal"].hide();
+        }
+    },
+    components: { CreateRecipeModel }
 };
 </script>
 
 <style lang="scss">
-@import "@/scss/form-style.scss";
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -140,7 +132,7 @@ body {
   font-family: Arial, sans-serif;
 }
 header {
-  background-color: #333;
+  background-color: #494949;
   padding: 10px 20px;
   border-bottom: 2px solid #f2f2f2;
 }
@@ -170,12 +162,6 @@ header {
   border-radius: 20px;
   transition: background-color 0.3s ease;
 }
-.search:hover {
-  background-color: #19e7c1;
-  border-radius: 20%;
-  color: #ffffff;
-  text-decoration: none;
-}
 .about {
   background-color: #ff4081;
   border: none;
@@ -186,17 +172,16 @@ header {
   border-radius: 20px;
   transition: background-color 0.3s ease;
 }
-.about:hover {
-  background-color: #ffffff;
-  border-radius: 20%;
-  color: #333;
-  text-decoration: none;
-}
 header a {
   color: #ffffff;
   text-decoration: none;
   margin-right: 10px;
   font-weight: bold;
+  transition: color 0.3s ease;
+}
+header a:hover {
+  color: #d5004e;
+  text-decoration: underline;
 }
 .header-middle {
   display: flex;
@@ -221,7 +206,7 @@ header a {
 //~~~~~~~~~~~~~~~~~~~~ DROPDOWN ~~~~~~~~~~~~~~~~~~~~
 .dropdown {
   position: relative;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .dropdown-button {
   background-color: #ff4081;
@@ -239,12 +224,13 @@ header a {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #bfa7c4;
-  min-width: 200px;
+  background-color: #b982c4;
+  min-width: 150px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1;
   border-radius: 4px;
   padding: 10px;
+  left: -10px;
 }
 .dropdown:hover .dropdown-content {
   display: block;
@@ -257,13 +243,13 @@ header a {
   color: white;
 }
 .user-login span {
-  margin-right: 10px;
+  // margin-right: 20px;
   font-weight: bold;
   color: #ffffff;
   background-color: #f3e5f5;
   border: 2px solid #ff4081;
   border-radius: 20px;
-  padding: 8px 15px;
+  // padding: 8px 15px;
   transition: background-color 0.3s ease;
 }
 .user-login span:hover {
@@ -302,13 +288,33 @@ main {
   font: inherit;
   color: transparent;
   cursor: pointer;
-  color: #333;
+  color: #fffefe;
   font-weight: bold;
   margin-right: 10px;
 }
 .logout-btn:hover {
   color: #0056b3;
   text-decoration: underline;
+}
+
+//~~~~~~~~~~~~~~~~~~~~ MODEL ~~~~~~~~~~~~~~~~~~~~
+.recipe-modal {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.modal-title {
+  color: #f2f2f2;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.modal-content {
+  text-align: center;
 }
 
 //~~~~~~~~~~~~~~~~~~~~ FOOTER ~~~~~~~~~~~~~~~~~~~~
@@ -326,5 +332,6 @@ footer {
 .footer-left p {
   font-size: 18px;
 }
+
 
 </style>

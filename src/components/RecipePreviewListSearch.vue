@@ -5,7 +5,7 @@
       <slot></slot>
     </h3>
     <b-row>
-      <b-col v-for="r in recipes" :key="r.id">
+      <b-col v-for="r in recipesArray" :key="r.id">
         <RecipePreview class="recipePreview" :recipe="r" />
       </b-col>
     </b-row>
@@ -32,7 +32,6 @@ export default {
   },
   data() {
     return {
-      recipes: []
     };
   },
   mounted() {
@@ -44,31 +43,25 @@ export default {
       console.log(this.title);
       console.log("test2");
 
-      console.log(recipesArray1);
-      console.log("test3");
+      // console.log(recipesArray1);
+      // console.log("test3");
 
-      this.recipes = recipesArray1;
-
-      console.log(this.recipes);
-      this.recipes.push(...recipes);
-      // try {
-
-      //   console.log("test4");
-
-      //   const response = await this.axios.get(
-      //     this.$root.store.server_domain + "/recipes/random",
-      //     // "https://test-for-3-2.herokuapp.com/recipes/random"
-      //   );
-      //   console.log("test5");
-      //   console.log(response);
-      //   this.recipes = [];
-      //   const recipes = response.data;
-      //   console.log(recipes);
-      //   this.recipes.push(...recipes);
-      //   console.log(this.recipes);
-      // } catch (error) {
-      //   console.log(error);
+      // if (recipesArray !== undefined) {
+      //   console.log(recipesArray);
       // }
+
+      // this.recipes.push(...recipes);
+      // try {
+    },
+    async updateRecipes2(recipesArray1) {
+      // console.log("test1");
+      // console.log(this.title);
+      // console.log("test2");
+
+      // console.log(recipesArray1);
+      // console.log("test3");
+      // this.recipesArray = recipesArray1;
+      // console.log(this.recipesArray);
     }
   }
 };

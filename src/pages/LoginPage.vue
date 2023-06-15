@@ -60,8 +60,8 @@
     </b-form>
 
     <div>
-      <b-button @click="modalShow = !modalShow">Forget your password?</b-button>
-      <b-modal v-model="modalShow">Please relax and try to remember!</b-modal>
+      <b-button @click="modalShow = !modalShow" >Forget your password? </b-button>
+      <b-modal v-model="modalShow" hide-footer title="Forget your password?">Please relax and try to remember!</b-modal>
     </div>
 
     <b-alert class="mt-2" v-if="form.submitError" variant="warning" dismissible show>

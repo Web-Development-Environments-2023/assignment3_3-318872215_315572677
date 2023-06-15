@@ -1,10 +1,33 @@
 <template>
   <div class="container">
+
     <!-- maybe add ... -->
     <h1 class="title">Search Page</h1> 
-    <form class="form-inline mb-10" @submit="Search">
-    <!-- <form class="form-inline mb-10" @submit.prevent="Search"> -->
 
+    <!-- <form class="form-inline mb-10" @submit="Search"> -->
+    <form class="form-inline mb-10" @submit.prevent="Search">
+      <label for="number_of_res">Amount of results: </label>
+      <div class="form-check form-check-inline" id="number_of_res">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="formData.AmountOfResults" value="1">
+        <label class="form-check-label" for="inlineRadio1">1</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="formData.AmountOfResults" value="2">
+        <label class="form-check-label" for="inlineRadio2">2</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="formData.AmountOfResults" value="3">
+        <label class="form-check-label" for="inlineRadio3">3</label>
+      </div>
+      <select v-model="formData.cuisine">
+        <option v-for="option in options.cuisine" :key="option" :value="option">{{ option }}</option>
+      </select>
+      <select v-model="formData.diet">
+        <option v-for="option in options.diet" :key="option" :value="option">{{ option }}</option>
+      </select>
+      <select v-model="formData.intolerance">
+        <option v-for="option in options.intolerance" :key="option" :value="option">{{ option }}</option>
+      </select>
       <!-- select from list... -->
 
 
@@ -12,7 +35,7 @@
       <input class="form-control" type="search" placeholder="Query to search" aria-label="Search" v-model="formData.query">
       <button class="btn" type="submit">Search</button>
     </form>
-    <RecipePreviewListSearch v-if="this.recipes !== []" title="search results" :recipesArray="recipes" /> 
+    <RecipePreviewListSearch title="search results" :recipesArray="recipes" /> 
 
   </div>
 </template>
@@ -29,39 +52,45 @@
         formData: {
           query: '',
           number: 5,
-          cuisine: "Italian",
-          diet: "Vegetarian",
-          intolerance: "Seafood",
-          fillIngredients: true,
-          addRecipeInformation: true
+          cuisine: undefined,
+          diet: undefined,
+          intolerance: undefined,
+          fillIngredients: false,
+          addRecipeInformation: false,
+          AmountOfResults: 2
         },
-        recipes: []
+        recipes: [],
+        options:{
+          cuisine: ["African", "American", "British", "Cajun", "Caribbean", "Chinese", "Eastern European", "European", "French", "German", "Greek", "Indian", "Irish", "Italian", "Japanese", "Jewish", "Korean", "Latin American", "Mediterranean", "Mexican", "Middle Eastern", "Nordic", "Southern", "Spanish", "Thai", "Vietnamese"],
+          diet: ["Gluten Free", "Ketogenic", "Vegetarian", "Lacto-Vegetarian", "Ovo-Vegetarian", "Vegan", "Pescetarian", "Paleo", "Primal", "Whole30"],
+          intolerance: ["Dairy", "Egg", "Gluten", "Grain", "Peanut", "Seafood", "Sesame", "Shellfish", "Soy", "Sulfite", "Tree Nut", "Wheat"]
+
+        }
       }
     },
     methods: {
       async Search() {
         try {
-          console.log("t1");
-          console.log(this.formData.query);
-
+          this.recipes = [];
           const response = await this.axios.post(
           this.$root.store.server_domain + "/recipes/search",
           {
             query: this.formData.query,
-            number: 5,
-            cuisine: "Italian",
-            diet: "Vegetarian",
-            intolerance: "Seafood",
-            fillIngredients: true,
-            addRecipeInformation: true
+            number: this.formData.AmountOfResults,
+            cuisine: this.formData.cuisine,
+            diet: this.formData.diet,
+            intolerance: this.formData.intolerance,
+            fillIngredients: this.formData.fillIngredients,
+            addRecipeInformation: this.formData.addRecipeInformation
           }
         );
+        console.log("Search Page response");
         console.log(response);
-        this.recipes = [];
-        const recipes = response.data;
-        console.log(recipes);
-        console.log("t2");
-        RecipePreviewListSearch.methods.updateRecipes(recipes);
+        this.recipes.push(...response.data);
+
+        console.log("Search Page recipes");
+        console.log(this.recipes);
+        // RecipePreviewListSearch.methods.updateRecipes2(recipes2);
 
         } catch (e) {
           console.log(e);
