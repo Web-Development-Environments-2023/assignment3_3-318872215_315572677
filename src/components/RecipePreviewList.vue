@@ -23,11 +23,11 @@
       {{ title }}:
       <slot></slot>
     </h3>
-    <b-row>
-      <b-col v-for="r in recipes" :key="r.id">
+
+    <div v-for="r in recipes" :key="r.id" >
         <RecipePreview class="recipePreview" :recipe="r" />
-      </b-col>
-    </b-row>
+    </div>
+
     <b-button class="getThreeRandom_btn" @click="updateRecipes" variant="secondary">More Recipe</b-button>
   </b-container>
 </template>
