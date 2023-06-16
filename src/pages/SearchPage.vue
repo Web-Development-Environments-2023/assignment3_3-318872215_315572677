@@ -82,7 +82,8 @@
             intolerance: this.formData.intolerance,
             fillIngredients: this.formData.fillIngredients,
             addRecipeInformation: this.formData.addRecipeInformation
-          }
+          },
+          { withCredentials: true }
         );
         console.log("Search Page response");
         console.log(response);

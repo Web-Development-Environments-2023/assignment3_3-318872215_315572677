@@ -273,7 +273,8 @@ export default {
             country: this.form.country,
             password: this.form.password,
             email: this.form.email
-          }
+          },
+          { withCredentials: true }
         );
         this.$root.toast("Success", "A new user has been added", "success");
         this.$router.push("/login");

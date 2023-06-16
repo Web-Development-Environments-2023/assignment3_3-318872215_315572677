@@ -96,18 +96,21 @@ const shared_data = {
   // user_
   search_url_: localStorage.search_url_,
   server_domain: "http://localhost:3000" || "http://127.0.0.1:3000",
+  // server_domain:  "http://127.0.0.1:3000",
   login(username) {
     localStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
-    // VueCookies.setItem(this.username, this.username);
+    VueCookies.set(this.username, this.username);
   },
   logout() {
     console.log("logout");
+    VueCookies.remove(this.username);
     localStorage.removeItem("username");
     this.username = undefined;
     localStorage.removeItem("search_url_");
     this.search_url_ = undefined;
+    
   },
   last_search(search_url){
     localStorage.setItem("search_url_", search_url);
