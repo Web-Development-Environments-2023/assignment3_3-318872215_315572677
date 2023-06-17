@@ -1,34 +1,31 @@
 <template>
-  <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-    class="recipe-preview"
-  >
-    <!-- <div class="recipe-body">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-    </div>
-    <div class="recipe-footer">
-      <div :title="recipe.title" class="recipe-title">
-        {{ recipe.title }}
+  <div>
+    <div>
+      <div class="card" style="width: 18rem;">
+        <router-link :to="{ name: 'recipe', params: { recipeId: recipe.id } }" class="recipe-preview">
+          <img v-if="image_load" :src="recipe.image" class="recipe-image" />
+          <div class="card-body">
+            <h5 class="recipe-title">{{ recipe.title }}</h5>
+          </div>
+        </router-link>
+        <ul class="recipe-overview">
+          <li>{{ recipe.readyInMinutes }} minutes</li>
+          <li>{{ recipe.popularity }} likes</li>
+          <template v-if="recipe.vegetarian">
+            <img src="@/assets/vegetarian.png" width="60" height="60" id="icon" />
+          </template>
+          <template v-if="recipe.glutenFree">
+            <img src="@/assets/glutenFree.jpg" width="60" height="60" id="icon" />
+          </template>
+          <template v-if="recipe.vegan">
+            <img src="@/assets/vegan.jpg" width="60" height="60" id="icon" />
+          </template>
+        </ul>
       </div>
-      <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
-      </ul>
-    </div> -->
-
-
-    <div class="card" style="width: 18rem;">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-      <div class="card-body">
-        <h5 class="recipe-title">{{ recipe.title }}</h5>
-      </div>
-      <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
-      </ul>
     </div>
-  </router-link>
+  </div>
 </template>
+
 
 <script>
 export default {
@@ -76,6 +73,17 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  width: 18rem;
+}
+
+.card .recipe-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+
 .recipe-preview {
   display: inline-block;
   width: 90%;
@@ -88,6 +96,7 @@ export default {
   height: 200px;
   position: relative;
 }
+
 
 .recipe-preview .recipe-body .recipe-image {
   margin-left: auto;

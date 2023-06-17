@@ -16,8 +16,8 @@
         <label class="form-check-label" for="inlineRadio2">2</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="formData.AmountOfResults" value="3">
-        <label class="form-check-label" for="inlineRadio3">3</label>
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="formData.AmountOfResults" value="6">
+        <label class="form-check-label" for="inlineRadio3">6</label>
       </div>
       <select v-model="formData.cuisine">
         <option v-for="option in options.cuisine" :key="option" :value="option">{{ option }}</option>
@@ -35,16 +35,22 @@
       <input class="form-control" type="search" placeholder="Query to search" aria-label="Search" v-model="formData.query">
       <button class="btn" type="submit">Search</button>
     </form>
-    <RecipePreviewListSearch title="search results" :recipesArray="recipes" /> 
+    <b-row v-for="(recipeLine, index) in recipeLines" :key="index" class="recipe-line">
+      <b-col v-for="recipe in recipeLine" :key="recipe.id">
+              <RecipePreview class="recipePreview" :recipe="recipe" />
+      </b-col>
+    </b-row>
 
   </div>
 </template>
 
 <script>
-  import RecipePreviewListSearch from "../components/RecipePreviewListSearch";
+  // import RecipePreviewListSearch from "../components/RecipePreviewListSearch";
+  import RecipePreview from '../components/RecipePreview.vue';
   export default {
     components: {
-      RecipePreviewListSearch,
+      RecipePreview,
+      // RecipePreviewListSearch,
     },
     name: 'SearchPage',
     data() {
@@ -68,6 +74,27 @@
         }
       }
     },
+    computed: {
+    recipeLines() {
+      const recipesPerLine = 3;
+      const lines = [];
+      let currentLine = [];
+
+      // Iterate over the recipes and split them into lines
+      this.recipes.forEach((recipe, index) => {
+        currentLine.push(recipe);
+
+        // Check if the current line is full or if it's the last recipe
+        if (currentLine.length === recipesPerLine || index === this.recipes.length - 1) {
+          lines.push(currentLine);
+          currentLine = [];
+        }
+      });
+      console.log("recipeLines");
+      console.log(lines);
+      return lines;
+    }
+  },
     methods: {
       async Search() {
         try {

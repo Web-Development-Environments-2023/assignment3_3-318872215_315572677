@@ -2,44 +2,64 @@
   <div class="container">
     <div v-if="recipe">
       <div class="recipe-header mt-3 mb-4">
-        <h1>{{ recipe.title }}</h1>
-        <img :src="recipe.image" class="center" />
+        <h1 class="text-center">{{ recipe.title }}</h1>
+        <img :src="recipe.image" class="img-fluid rounded mx-auto d-block" alt="Recipe Image" />
       </div>
       <div class="recipe-body">
-        <div class="wrapper">
-          <div class="wrapped">
-            <div class="mb-3">
-              <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-4">
+              <h3>Recipe Details</h3>
+              <hr />
+              <template v-if="recipe.vegetarian">
+                <img src="@/assets/vegetarian.png" width="60" height="60" id="icon" />
+              </template>
+              <template v-if="recipe.glutenFree">
+                <img src="@/assets/glutenFree.jpg" width="60" height="60" id="icon" />
+              </template>
+              <template v-if="recipe.vegan">
+                <img src="@/assets/vegan.jpg" width="60" height="60" id="icon" />
+              </template>
+   
+              <div >
+                <div class="me-4">
+                  <strong>Ready in:</strong>
+                  <span class="text-muted">{{ recipe.readyInMinutes }} minutes </span>
+                </div>
+                <div>
+                  <strong>Likes:</strong>
+                  <span class="text-muted">{{ recipe.popularity }} likes </span>
+                </div>
+                <div>
+                  <strong>Servings :</strong>
+                  <span class="text-muted">{{ recipe.servings }} servings</span>
+                </div>
+              </div>
             </div>
-            Ingredients:
-            <ul>
-              <li
-                v-for="(r, index) in recipe.extendedIngredients"
-                :key="index + '_' + r.id"
-              >
-                {{ r.original }}
-              </li>
-            </ul>
+            <div class="mb-4">
+              <h3>Ingredients</h3>
+              <hr />
+              <ul>
+                <li v-for="(r, index) in recipe.ingredients" :key="index + '_' + r.id">{{ r.original }}</li>
+              </ul>
+            </div>
           </div>
-          <div class="wrapped">
-            Instructions:
-            <ol>
-              <li v-for="s in recipe._instructions" :key="s.number">
-                {{ s.step }}
-              </li>
-            </ol>
+          <div class="col-md-6">
+            <div class="mb-4">
+              <h3>Instructions</h3>
+              <hr />
+              <ol>
+                <div v-html="formattedInstructions"></div>
+              </ol>
+            </div>
           </div>
         </div>
       </div>
-      <!-- <pre>
-      {{ $route.params }}
-      {{ recipe }}
-    </pre
-      > -->
     </div>
   </div>
 </template>
+
+
 
 <script>
 export default {
@@ -47,6 +67,11 @@ export default {
     return {
       recipe: null
     };
+  },
+  computed: {
+    formattedInstructions() {
+      return this.recipe.instructions;
+    }
   },
   async created() {
     try {
@@ -78,7 +103,7 @@ export default {
         title,
         readyInMinutes,
         image,
-        aggregateLikes,
+        popularity,
         vegan,
         vegetarian,
         glutenFree,
@@ -108,7 +133,7 @@ export default {
         title,
         readyInMinutes,
         image,
-        aggregateLikes,
+        popularity,
         vegan,
         vegetarian,
         glutenFree,
@@ -128,6 +153,7 @@ export default {
       // };
 
       this.recipe = _recipe;
+      console.log("this.recipe", this.recipe);
 
     } catch (error) {
       console.log(error);
