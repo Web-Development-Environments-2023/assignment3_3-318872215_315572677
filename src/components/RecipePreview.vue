@@ -3,12 +3,24 @@
     :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
     class="recipe-preview"
   >
-    <div class="recipe-body">
+    <!-- <div class="recipe-body">
       <img v-if="image_load" :src="recipe.image" class="recipe-image" />
     </div>
     <div class="recipe-footer">
       <div :title="recipe.title" class="recipe-title">
         {{ recipe.title }}
+      </div>
+      <ul class="recipe-overview">
+        <li>{{ recipe.readyInMinutes }} minutes</li>
+        <li>{{ recipe.aggregateLikes }} likes</li>
+      </ul>
+    </div> -->
+
+
+    <div class="card" style="width: 18rem;">
+      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
+      <div class="card-body">
+        <h5 class="recipe-title">{{ recipe.title }}</h5>
       </div>
       <ul class="recipe-overview">
         <li>{{ recipe.readyInMinutes }} minutes</li>

@@ -4,17 +4,18 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 // axios.defaults.withCredentials = true;
 import VueScrollFixedNavbar from "vue-scroll-fixed-navbar";
-
+import VueCookies from 'vue-cookies'
 Vue.use(VueScrollFixedNavbar);
 
 import routes from "./routes";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
+Vue.use(VueCookies);
 const router = new VueRouter({
   routes,
 });
-import VueCookies from 'vue-cookies'
-Vue.use(VueCookies);
+
+
 
 
 
@@ -101,11 +102,11 @@ const shared_data = {
     localStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
-    VueCookies.set(this.username, this.username);
+    // VueCookies.set(this.username, this.username);
   },
   logout() {
     console.log("logout");
-    VueCookies.remove(this.username);
+    // VueCookies.remove(this.username);
     localStorage.removeItem("username");
     this.username = undefined;
     localStorage.removeItem("search_url_");

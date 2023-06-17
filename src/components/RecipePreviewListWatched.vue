@@ -1,32 +1,12 @@
-<!-- <template>
-  <b-container>
-    <h3>
-      {{ title }}:
-      <slot></slot>
-    </h3>
-    <table class="recipe-table">
-      <tbody>
-        <tr v-for="r in recipes" :key="r.id">
-          <td class="recipe-name">
-            <RecipePreview class="recipePreview" :recipe="r" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </b-container>
-</template> -->
-
 <template>
   <b-container>
     <h3>
       {{ title }}:
       <slot></slot>
     </h3>
-    <b-row>
-      <b-col v-for="r in recipes" :key="r.id">
+    <div v-for="r in recipes" :key="r.id" >
         <RecipePreview class="recipePreview" :recipe="r" />
-      </b-col>
-    </b-row>
+    </div>
   </b-container>
 </template>
   
