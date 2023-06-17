@@ -74,6 +74,8 @@ export default {
     }
   },
   async created() {
+    console.log("@@@@@@RecipeViewPage@@@@@@@@@@@@@@@@@@@@");
+      console.log(this.$route.params.recipeId);
     try {
       let response;
       // response = this.$route.params.response;

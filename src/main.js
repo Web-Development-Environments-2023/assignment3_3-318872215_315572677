@@ -97,7 +97,7 @@ const shared_data = {
   // user_
   search_url_: localStorage.search_url_,
   server_domain: "http://localhost:3000" || "http://127.0.0.1:3000",
-  // server_domain:  "http://127.0.0.1:3000",
+  // server_domain:  "https://oran-shay.cs.bgu.ac.il",
   login(username) {
     localStorage.setItem("username", username);
     this.username = username;

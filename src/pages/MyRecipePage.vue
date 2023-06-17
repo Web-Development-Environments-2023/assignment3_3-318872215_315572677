@@ -1,17 +1,69 @@
 <template>
     <div>
+        <div id="background"></div>
         <h1>My Recipe</h1>
         <p>My Recipe Page</p>
+        <b-col v-for="recipe in recipes" :key="recipe.id">
+              <br>
+              <MyRecipePreview class="recipePreview" :recipe="recipe" />
+        </b-col>
     </div>
 
 </template>
 
 <script>
+import MyRecipePreview from '../components/MyRecipePreview.vue';
 export default {
+    name: 'MyRecipePage',
+    components: {
+        MyRecipePreview,        
+    },
+    data() {
+        return {
+            recipes: [],
+        }
+    },
+    async created() {
+        try {
+          this.recipes = [];
+          const response = await this.axios.get(
+          this.$root.store.server_domain + "/users/myRecipes",
+          { withCredentials: true }
+        );
+        console.log("MyRecipePage response");
+        console.log(response);
+        this.recipes.push(...response.data);
+
+        console.log("MyRecipePage recipes");
+        console.log(this.recipes);
+        } catch (e) {
+          console.log(e);
+        } 
+    },
+     mounted() {
+ 
+     },
+    methods: {
+        
+    },
+    computed: {
+        
+    }
 
 }
 </script>
 
 <style>
-
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../assets/food-background.jpg);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.5;
+}
 </style>
