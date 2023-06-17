@@ -62,26 +62,55 @@
 
     <!-- right side model -->
     <div class="right">
-      <!-- ingredients list -->
-      <div class="ingredients">
-        <h5>Added ingredients:</h5>
-        <ul v-if="$v.form.ingredients.$model !== ''">
-          <li class="list-group-item borderless" v-for="(ingredient, index) in $v.form.ingredients.$model.split('&')" :key="index + '_' + ingredient">
-            <div v-if="index !== ($v.form.ingredients.$model.split('&').length - 1)">
-              {{ ingredient }}
-              <b-button @click="removeIngredient(ingredient)" size="sm" class="ml-2" variant="danger">❌</b-button>
-            </div>
-          </li>
-        </ul>
-        <small v-else>You haven't added any ingredients yet</small>
-      </div>
+        
+        <!-- Ingredients list -->
+        <div class="ingredients">
+            <h5>Added ingredients:</h5>
+            <ul v-if="form.ingredients.length > 0">
+                <li class="list-group-item borderless" v-for="(ingredient, index) in form.ingredients" :key="index">
+                <div class="ingredient">
+                    <img :src="getIngredientImage(ingredient)" class="ingredient-image" />
+                    <span class="ingredient-name">{{ ingredient.name }}</span>
+                </div>
+                <b-button @click="removeIngredient(index)" size="sm" class="ml-2" variant="outline-light">❌</b-button>
+                </li>
+            </ul>
+            <small v-else>You haven't added any ingredients yet</small>
+        </div>
 
       <!-- Photo -->
       <div class="photo" style="display: inline-flex; align-items: center;">
         <h3 style="margin-right: 10px;">Photo <span style="font-size: 14px; color: #ff9900;">[hyperlink]</span></h3>
         <input v-model.trim="$v.form.image.$model" placeholder="https://www.exampleImage.com" style="border: 1px solid #ccc; border-radius: 4px; padding: 6px 10px;">
       </div>
+      
+      <br><br>
+
+        <!-- Family -->
+        <!-- CheckBox if true show the another labels -->
+        <div class="family" style="align-items: center;">
+            <h5 style="margin-right: 10px;">Family Recipe</h5>
+            <b-checkbox v-model.trim="form.familyRecipe" switch></b-checkbox>
+
+            <!-- Creator By -->
+            <div class="creator" v-if="form.familyRecipe" style="display: inline-flex; align-items: center;">
+                <b-form-group id="input-group-creatorBy" label-cols-sm="3" label="Creator By:" label-for="creatorBy">
+                <b-form-input id="creatorBy" v-model.trim="form.creatorBy" type="text"></b-form-input>
+                </b-form-group>
+            </div>
+
+            <!-- Usual Time -->
+            <div class="usualTime" v-if="form.familyRecipe" style="display: inline-flex; align-items: center;">
+                <b-form-group id="input-group-usualTime" label-cols-sm="3" label="Usual Time:" label-for="usualTime">
+                <b-form-input id="usualTime" v-model.trim="form.usualTime" type="text"></b-form-input>
+                </b-form-group>
+            </div>
+        </div>
+
+
+    <!-- end right div -->
     </div>
+
   </div>
 </template>
 
@@ -103,12 +132,16 @@ export default {
         vegetarian: false,
         vegan: false,
         instructions: "",
-        ingredients: "",
+        ingredients: [],
         image: "",
 
         popularity: 0,
         isWatched: null,
         inFavorites: null,
+
+        familyRecipe: false,
+        creatorBy: "",
+        usualTime: "",
 
         submitError: undefined,
       },
@@ -138,6 +171,7 @@ export default {
       ingredientAmount: {},
       ingredients: {},
       image: {},
+      familyRecipe: {},
     },
   },
   methods: {
@@ -152,21 +186,45 @@ export default {
     async createRecipeForm() {
       this.pressed = true;
 
-      const response = await this.axios.post(
-        this.$root.store.server_domain + "/recipes/create",
-        {
-          "title": this.form.title,
-          "readyInMinutes": this.form.readyInMinutes,
-          "vegetarian": this.form.vegetarian,
-          "vegan": this.form.vegan,
-          "glutenFree": this.form.glutenFree,
-          "image": this.form.image,
-          "servings": this.form.servings,
-          "instructions": this.form.instructions,
-          "ingredients": this.form.ingredients
-        },
-        { withCredentials: true },
-      );
+      if (this.form.familyRecipe === false){
+        const response = await this.axios.post(
+            this.$root.store.server_domain + "/recipes/create",
+            {
+            "title": this.form.title,
+            "readyInMinutes": this.form.readyInMinutes,
+            "vegetarian": this.form.vegetarian,
+            "vegan": this.form.vegan,
+            "glutenFree": this.form.glutenFree,
+            "image": this.form.image,
+            "servings": this.form.servings,
+            "instructions": this.form.instructions,
+            "ingredients": this.form.ingredients
+            },
+            { withCredentials: true },
+        );
+      } 
+      else {
+        const response = await this.axios.post(
+            this.$root.store.server_domain + "/recipes/familyRecipes",
+            {
+            "title": this.form.title,
+            "readyInMinutes": this.form.readyInMinutes,
+            "vegetarian": this.form.vegetarian,
+            "vegan": this.form.vegan,
+            "glutenFree": this.form.glutenFree,
+            "image": this.form.image,
+            "servings": this.form.servings,
+            "instructions": this.form.instructions,
+            "ingredients": this.form.ingredients,
+            "creatorBy": this.form.creatorBy,
+            "usualTime": this.form.usualTime,
+
+            },
+            { withCredentials: true },
+        );
+      }
+
+      
 
       this.closeModal();
     },
@@ -180,12 +238,15 @@ export default {
         vegetarian: false,
         vegan: false,
         instructions: "",
-        ingredients: "",
+        ingredients: [],
         image: "",
 
         popularity: 0,
         isWatched: null,
         inFavorites: null,
+
+        familyRecipe: false,
+        creatorBy: "",
 
         submitError: undefined,
       };
@@ -193,20 +254,27 @@ export default {
       this.ingredientAmount = "";
       this.submitted = false;
     },
+
+
     insertIngredient() {
       if (this.ingredientName === "" || this.ingredientAmount === "") return;
-      this.form.ingredients += `${this.ingredientName} | ${this.ingredientAmount} & `;
+      const newIngredient = {
+        id: 1,
+        image: 1,
+        name: `${this.ingredientName}`,
+        amount: `${this.ingredientAmount}`,
+      };
+      this.form.ingredients.push(newIngredient);
       this.ingredientName = "";
       this.ingredientAmount = "";
     },
-    removeIngredient(ingredient) {
-      const ingredients = this.form.ingredients.split("&");
-      const index = ingredients.indexOf(ingredient);
-      if (index > -1) {
-        ingredients.splice(index, 1);
-        this.form.ingredients = ingredients.join("&").trim();
-      }
+    removeIngredient(index) {
+      this.form.ingredients.splice(index, 1);
     },
+    getIngredientImage(ingredient) {
+      return `https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`;
+    },
+
   },
 };
 </script>
@@ -232,20 +300,24 @@ width: 40%;
 float: right;
 }
 
-.ingredients {
-margin-top: 20px;
+.ingredient {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
 }
 
-.ingredient {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 5px;
+.ingredient-image {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.ingredient-name {
+  font-weight: bold;
 }
 
 .photo {
 margin-top: 20px;
 }
-
-/* Add more custom styles as needed */
 </style>

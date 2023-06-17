@@ -1,48 +1,57 @@
 <template>
   <div class="container">
+    <div id="background"></div>
+    
+    <h1 class="title">Search Page</h1>
 
-    <!-- maybe add ... -->
-    <h1 class="title">Search Page</h1> 
-
-    <!-- <form class="form-inline mb-10" @submit="Search"> -->
     <form class="form-inline mb-10" @submit.prevent="Search">
-      <label for="number_of_res">Amount of results: </label>
-      <div class="form-check form-check-inline" id="number_of_res">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="formData.AmountOfResults" value="1">
-        <label class="form-check-label" for="inlineRadio1">1</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="formData.AmountOfResults" value="2">
-        <label class="form-check-label" for="inlineRadio2">2</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" v-model="formData.AmountOfResults" value="6">
-        <label class="form-check-label" for="inlineRadio3">6</label>
-      </div>
-      <select v-model="formData.cuisine">
-        <option v-for="option in options.cuisine" :key="option" :value="option">{{ option }}</option>
-      </select>
-      <select v-model="formData.diet">
-        <option v-for="option in options.diet" :key="option" :value="option">{{ option }}</option>
-      </select>
-      <select v-model="formData.intolerance">
-        <option v-for="option in options.intolerance" :key="option" :value="option">{{ option }}</option>
-      </select>
-      <!-- select from list... -->
 
+      <div class="form-group">
+        <label for="number_of_res">Amount of results:</label>
+        <select class="form-control" v-model="formData.AmountOfResults" id="Amount">
+          <option v-for="option in options.AmountOfResults" :key="option" :value="option">{{ option }}</option>
+        </select>
+      </div>
 
+      <div class="form-group">
+        <label for="cuisine">Cuisine:</label>
+        <select class="form-control" v-model="formData.cuisine" id="cuisine">
+          <option v-for="option in options.cuisine" :key="option" :value="option">{{ option }}</option>
+        </select>
+      </div>
 
-      <input class="form-control" type="search" placeholder="Query to search" aria-label="Search" v-model="formData.query">
-      <button class="btn" type="submit">Search</button>
+      <div class="form-group">
+        <label for="diet">Diet:</label>
+        <select class="form-control" v-model="formData.diet" id="diet">
+          <option v-for="option in options.diet" :key="option" :value="option">{{ option }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="intolerance">Intolerance:</label>
+        <select class="form-control" v-model="formData.intolerance" id="intolerance">
+          <option v-for="option in options.intolerance" :key="option" :value="option">{{ option }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="query">Query to search:</label>
+        <input class="form-control" type="search" placeholder="Enter search query" aria-label="Search" v-model="formData.query" id="query">
+      </div>
+
+      <button class="btn btn-primary" type="submit">Search</button>
     </form>
+
     <b-row v-for="(recipeLine, index) in recipeLines" :key="index" class="recipe-line">
       <b-col v-for="recipe in recipeLine" :key="recipe.id">
+        <br>
               <RecipePreview class="recipePreview" :recipe="recipe" />
       </b-col>
     </b-row>
 
   </div>
 </template>
+
 
 <script>
   // import RecipePreviewListSearch from "../components/RecipePreviewListSearch";
@@ -69,7 +78,8 @@
         options:{
           cuisine: ["African", "American", "British", "Cajun", "Caribbean", "Chinese", "Eastern European", "European", "French", "German", "Greek", "Indian", "Irish", "Italian", "Japanese", "Jewish", "Korean", "Latin American", "Mediterranean", "Mexican", "Middle Eastern", "Nordic", "Southern", "Spanish", "Thai", "Vietnamese"],
           diet: ["Gluten Free", "Ketogenic", "Vegetarian", "Lacto-Vegetarian", "Ovo-Vegetarian", "Vegan", "Pescetarian", "Paleo", "Primal", "Whole30"],
-          intolerance: ["Dairy", "Egg", "Gluten", "Grain", "Peanut", "Seafood", "Sesame", "Shellfish", "Soy", "Sulfite", "Tree Nut", "Wheat"]
+          intolerance: ["Dairy", "Egg", "Gluten", "Grain", "Peanut", "Seafood", "Sesame", "Shellfish", "Soy", "Sulfite", "Tree Nut", "Wheat"],
+          AmountOfResults: [1, 2, 3, 6]
 
         }
       }
@@ -130,5 +140,16 @@
 </script>
 
 <style>
-
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../assets/food-background.jpg);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.5;
+}
 </style>

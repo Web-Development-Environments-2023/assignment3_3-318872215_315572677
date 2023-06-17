@@ -1,5 +1,7 @@
 <template>
   <div id="main-container">
+    <div id="background"></div>
+
     <!-- <h1 class="title">Grandma's recipes and others</h1> -->
       <b-row>
         <b-col cols="3" class="left-column">
@@ -79,5 +81,17 @@ export default {
 ::v-deep .blur .recipe-preview {
   pointer-events: none;
   cursor: default;
+}
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../assets/food-background.jpg);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.5;
 }
 </style>

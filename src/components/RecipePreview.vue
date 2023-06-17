@@ -1,29 +1,25 @@
 <template>
-  <div>
-    <div>
-      <div class="card" style="width: 18rem;">
-        <router-link :to="{ name: 'recipe', params: { recipeId: recipe.id } }" class="recipe-preview">
-          <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-          <div class="card-body">
-            <h5 class="recipe-title">{{ recipe.title }}</h5>
-          </div>
-        </router-link>
-        <ul class="recipe-overview">
-          <li>{{ recipe.readyInMinutes }} minutes</li>
-          <li>{{ recipe.popularity }} likes</li>
-          <template v-if="recipe.vegetarian">
-            <img src="@/assets/vegetarian.png" width="60" height="60" id="icon" />
-          </template>
-          <template v-if="recipe.glutenFree">
-            <img src="@/assets/glutenFree.jpg" width="60" height="60" id="icon" />
-          </template>
-          <template v-if="recipe.vegan">
-            <img src="@/assets/vegan.jpg" width="60" height="60" id="icon" />
-          </template>
-        </ul>
-      </div>
+    <div class="card" style="width: 18rem;">
+      <router-link :to="{ name: 'recipe', params: { recipeId: recipe.id } }" class="recipe-preview">
+        <img v-if="image_load" :src="recipe.image" class="recipe-image" />
+        <div class="card-body">
+          <h5 class="recipe-title">{{ recipe.title }}</h5>
+        </div>
+      </router-link>
+      <ul class="recipe-overview">
+        <li>{{ recipe.readyInMinutes }} minutes</li>
+        <li>{{ recipe.popularity }} {{ recipe.aggregateLikes }} likes</li>
+        <template v-if="recipe.vegetarian">
+          <img src="@/assets/vegetarian.png" width="60" height="60" id="icon" />
+        </template>
+        <template v-if="recipe.glutenFree">
+          <img src="@/assets/glutenFree.jpg" width="60" height="60" id="icon" />
+        </template>
+        <template v-if="recipe.vegan">
+          <img src="@/assets/vegan.jpg" width="60" height="60" id="icon" />
+        </template>
+      </ul>
     </div>
-  </div>
 </template>
 
 
