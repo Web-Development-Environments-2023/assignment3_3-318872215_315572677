@@ -5,6 +5,7 @@
       <slot></slot>
     </h3>
     <div v-for="r in recipes" :key="r.id" >
+        <!-- <RecipePreview class="recipePreview" :recipe="r" :favorites="favoritesRecipes" :watched="watchedRecipes"/> -->
         <RecipePreview class="recipePreview" :recipe="r" />
     </div>
   </b-container>
@@ -21,14 +22,29 @@
       title: {
         type: String,
         required: true
-      }
+      },
+
+    //   favorites: {
+    //   type: Array,
+    //   required: true
+    // },
+
+    // watched: {
+    //   type: Array,
+    //   required: true
+    // },
+
     },
     data() {
       return {
-        recipes: []
+        recipes: [],
+        // favoritesRecipes: [],
+        // watchedRecipes: [],
       };
     },
     mounted() {
+      // this.getFavorites();
+      // this.getWatched();
       this.updateRecipes();
     },
     methods: {
@@ -53,7 +69,33 @@
         } catch (error) {
           console.log(error);
         }
-      }
+      },
+
+    //   async getFavorites() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       this.$root.store.server_domain + "/users/favorites"
+    //     );
+    //     const recipes = response.data;
+    //     this.favoritesRecipes.push(...recipes.recipes);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+
+    // async getWatched() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       this.$root.store.server_domain + "/users/watchedAll"
+    //     );
+    //     const recipes = response.data;
+    //     this.watchedRecipes.push(...recipes.recipes);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+
+
     }
   };
   </script>

@@ -26,31 +26,31 @@
         <!-- Gluten -->
         <b-form-group id="input-group-glutenFree" label-cols-sm="3" label="Gluten free:" label-for="glutenFree">
           <b-form-select id="glutenFree" v-model.trim="$v.form.glutenFree.$model" :options="[false, true]" :state="validateState('glutenFree')"></b-form-select>
-          <small v-if="$v.form.glutenFree.$model">Please make sure your recipe is indeed gluten-free</small>
+          <small v-if="$v.form.glutenFree.$model" style="color: rgb(201, 98, 98);">Please make sure your recipe is indeed gluten-free</small>
         </b-form-group>
 
         <!-- Vegetarian -->
         <b-form-group id="input-group-vegetarian" label-cols-sm="3" label="Vegetarian:" label-for="vegetarian">
           <b-form-select id="vegetarian" v-model.trim="$v.form.vegetarian.$model" :options="[false, true]" :state="validateState('vegetarian')"></b-form-select>
-          <small v-if="$v.form.vegetarian.$model">Please make sure your recipe is indeed vegetarian</small>
+          <small v-if="$v.form.vegetarian.$model" style="color: rgb(201, 98, 98);">Please make sure your recipe is indeed vegetarian</small>
         </b-form-group>
 
         <!-- Vegan -->
         <b-form-group id="input-group-vegan" label-cols-sm="3" label="Vegan:" label-for="vegan">
           <b-form-select id="vegan" v-model.trim="$v.form.vegan.$model" :options="[false, true]" :state="validateState('vegan')"></b-form-select>
-          <small v-if="$v.form.vegan.$model">Please make sure your recipe is indeed vegan</small>
+          <small v-if="$v.form.vegan.$model" style="color: rgb(201, 98, 98);">Please make sure your recipe is indeed vegan</small>
         </b-form-group>
 
       <!-- Instructions -->
       <b-form-group id="input-group-instructions" label-cols-sm="3" label="Instructions:" label-for="instructions">
-        <b-form-textarea id="instructions" v-model.trim="$v.form.instructions.$model" placeholder="Recipe Instructions" rows="3"></b-form-textarea>
+        <b-form-textarea id="instructions" v-model.trim="$v.form.instructions.$model" placeholder="Recipe Instructions" rows="3" :state="validateState('instructions')"></b-form-textarea>
       </b-form-group>
 
         <!-- Ingredients -->
         <b-form-group id="input-group-ingredients" label-cols-sm="3" label="Ingredients:" label-for="ingredients">
           <div style="display: inline-flex;">
-            <b-form-input placeholder="ingredient name" id="ingredient-name" v-model.trim="ingredientName"></b-form-input>
-            <b-form-input placeholder="ingredient amount" id="ingredient-amount" v-model.trim="ingredientAmount"></b-form-input>
+            <b-form-input placeholder="ingredient name" id="ingredient-name" v-model.trim="ingredientName" :state="validateState('ingredientName')"></b-form-input>
+            <b-form-input placeholder="ingredient amount" id="ingredient-amount" v-model.trim="ingredientAmount" :state="validateState('ingredientAmount')"></b-form-input>
             <b-button v-b-tooltip.hover.top="'Your ingredients successfully added to the list!'" class="mt-2" variant="primary" small @click="insertIngredient">➕ Ingredient</b-button>
           </div>
         </b-form-group>
@@ -111,6 +111,11 @@
     <!-- end right div -->
     </div>
 
+    <!-- Success Message -->
+    <!-- <div v-if="showSuccessMessage" class="success-message">
+      {{ successMessage }}
+    </div> -->
+
   </div>
 </template>
 
@@ -148,6 +153,8 @@ export default {
       ingredientName: "",
       ingredientAmount: "",
       submitted: false,
+      successMessage: "",
+      showSuccessMessage: false,
     };
   },
   validations: {
@@ -179,55 +186,69 @@ export default {
       const { $dirty, $error } = this.$v.form[param];
       return $dirty ? !$error : null;
     },
-    closeModel() {
-      this.showModal = false;
-      this.resetForm();
-    },
     async createRecipeForm() {
       this.pressed = true;
 
-      if (this.form.familyRecipe === false){
-        const response = await this.axios.post(
+      // Validate form data
+      if (
+        this.form.title === "" ||
+        this.form.readyInMinutes === "" ||
+        this.form.vegetarian === "" ||
+        this.form.vegan === "" ||
+        this.form.glutenFree === "" ||
+        this.form.image === "" ||
+        this.form.servings === "" ||
+        this.form.instructions === "" ||
+        this.form.ingredients === ""
+      ) {
+        // Show popup message or take any necessary action
+        alert("Please fill in all the required fields.");
+      } else {
+        if (this.form.familyRecipe === false) {
+          const response = await this.axios.post(
             this.$root.store.server_domain + "/recipes/create",
             {
-            "title": this.form.title,
-            "readyInMinutes": this.form.readyInMinutes,
-            "vegetarian": this.form.vegetarian,
-            "vegan": this.form.vegan,
-            "glutenFree": this.form.glutenFree,
-            "image": this.form.image,
-            "servings": this.form.servings,
-            "instructions": this.form.instructions,
-            "ingredients": this.form.ingredients
+              "title": this.form.title,
+              "readyInMinutes": this.form.readyInMinutes,
+              "vegetarian": this.form.vegetarian,
+              "vegan": this.form.vegan,
+              "glutenFree": this.form.glutenFree,
+              "image": this.form.image,
+              "servings": this.form.servings,
+              "instructions": this.form.instructions,
+              "ingredients": this.form.ingredients
             },
             { withCredentials: true },
-        );
-      } 
-      else {
-        const response = await this.axios.post(
+          );
+        } else {
+          const response = await this.axios.post(
             this.$root.store.server_domain + "/recipes/familyRecipes",
             {
-            "title": this.form.title,
-            "readyInMinutes": this.form.readyInMinutes,
-            "vegetarian": this.form.vegetarian,
-            "vegan": this.form.vegan,
-            "glutenFree": this.form.glutenFree,
-            "image": this.form.image,
-            "servings": this.form.servings,
-            "instructions": this.form.instructions,
-            "ingredients": this.form.ingredients,
-            "creatorBy": this.form.creatorBy,
-            "usualTime": this.form.usualTime,
-
+              "title": this.form.title,
+              "readyInMinutes": this.form.readyInMinutes,
+              "vegetarian": this.form.vegetarian,
+              "vegan": this.form.vegan,
+              "glutenFree": this.form.glutenFree,
+              "image": this.form.image,
+              "servings": this.form.servings,
+              "instructions": this.form.instructions,
+              "ingredients": this.form.ingredients,
+              "creatorBy": this.form.creatorBy,
+              "usualTime": this.form.usualTime,
             },
             { withCredentials: true },
-        );
+          );
+        }
+        alert("Recipe created successfully!");
+        this.$refs["recipe-modal"].hide();
       }
 
-      
+      // Set success message and show success message div
+      this.successMessage = "Recipe created successfully!";
+      this.showSuccessMessage = true;
 
-      this.closeModal();
     },
+
     resetForm() {
       this.form = {
         id: null,
@@ -275,6 +296,12 @@ export default {
       return `https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`;
     },
 
+    closeSuccessMessage() {
+      // Reset success message and hide success message div
+      this.successMessage = "";
+      this.showSuccessMessage = false;
+    },
+
   },
 };
 </script>
@@ -319,5 +346,12 @@ float: right;
 
 .photo {
 margin-top: 20px;
+}
+
+.success-message {
+  background-color: #dff0d8;
+  color: #3c763d;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 </style>

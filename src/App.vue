@@ -61,7 +61,7 @@
       <div class="d-block text-center">
         <CreateRecipeModel></CreateRecipeModel>
       </div>
-      <b-button class="mt-3" variant="outline-info" block @click="hideRecipeModal">Close Me</b-button>      
+      <!-- <b-button class="mt-3" variant="outline-info" block @click="hideRecipeModal">Close Me</b-button>       -->
     </b-modal>
 
 
@@ -95,9 +95,9 @@ export default {
         showRecipeModal() {
             this.$refs["recipe-modal"].show();
         },
-        hideRecipeModal() {
-            this.$refs["recipe-modal"].hide();
-        }
+        // hideRecipeModal() {
+        //     this.$refs["recipe-modal"].hide();
+        // }
     },
     components: { CreateRecipeModel }
 };

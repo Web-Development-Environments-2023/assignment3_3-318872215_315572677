@@ -138,6 +138,27 @@ export default {
         this.$root.store.login(this.form.username);
         // this.$root.store.login(response.data);
 
+
+
+        // let favorites_ids = [];
+        // let favorites = await this.axios.get(
+        //   this.$root.store.server_domain + "/users/favorites"
+        // );
+        // favorites.data.forEach((recipe) => {
+        //   favorites_ids.push(recipe.id.toString());
+        // });
+        // sessionStorage.setItem("favorites", JSON.stringify(favoritesIds));
+
+
+        // let lastSeen = await this.axios.get(
+        //   this.$root.store.server_domain + "/users/watchedAll"
+        // );
+        // sessionStorage.setItem("watchedRecipes", JSON.stringify(lastSeen.data.watched) );
+
+
+
+
+
         if (this.$route.path !== "/") {
           this.$router.push("/");
         }

@@ -25,7 +25,7 @@
     </h3>
 
     <div v-for="r in recipes" :key="r.id" >
-        <RecipePreview class="recipePreview" :recipe="r" />
+        <RecipePreview class="recipePreview" :recipe="r"/>
     </div>
 
     <b-button class="getThreeRandom_btn" @click="updateRecipes" variant="secondary">More Recipe</b-button>
@@ -47,10 +47,14 @@ export default {
   },
   data() {
     return {
-      recipes: []
+      recipes: [],
+      // favoritesRecipes: [],
+      // watchedRecipes: [],
     };
   },
   mounted() {
+    // this.getFavorites();
+    // this.getWatched();
     this.updateRecipes();
   },
   methods: {
@@ -71,7 +75,32 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }
+    },
+
+    // async getFavorites() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       this.$root.store.server_domain + "/users/favorites"
+    //     );
+    //     const recipes = response.data;
+    //     this.favoritesRecipes.push(...recipes.recipes);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+
+    // async getWatched() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       this.$root.store.server_domain + "/users/watchedAll"
+    //     );
+    //     const recipes = response.data;
+    //     this.watchedRecipes.push(...recipes.recipes);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+
   }
 };
 </script>
