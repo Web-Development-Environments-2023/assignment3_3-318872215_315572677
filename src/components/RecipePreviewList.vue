@@ -1,21 +1,4 @@
-<!-- <template>
-  <b-container>
-    <h3>
-      {{ title }}:
-      <slot></slot>
-    </h3>
-    <table class="recipe-table">
-      <tbody>
-        <tr v-for="r in recipes" :key="r.id">
-          <td class="recipe-name">
-            <RecipePreview class="recipePreview" :recipe="r" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <b-button class="getThreeRandom_btn" @click="updateRecipes" variant="secondary">More Recipe</b-button>
-  </b-container>
-</template> -->
+
 
 <template>
   <b-container>

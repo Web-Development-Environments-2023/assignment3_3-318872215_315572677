@@ -3,12 +3,39 @@
         <div id="background"></div>
         <h1>My Favorite</h1>
         <p>My Favorite Page</p>
+        <ExternalRecipesGridCards :recipesArray="this.recipes" />
     </div>
 </template>
 
 <script>
+import ExternalRecipesGridCards from '../components/ExternalRecipesGridCards.vue';
 export default {
+  name: 'MyFavoritePage',
+    components: {
+      ExternalRecipesGridCards,        
+    },
+    data() {
+        return {
+            recipes: [],
+        }
+    },
+    async created() {
+        try {
+          this.recipes = [];
+          const response = await this.axios.get(
+          this.$root.store.server_domain + "/users/favorites",
+          { withCredentials: true }
+        );
+        console.log("MyFavorite response");
+        console.log(response);
+        this.recipes.push(...response.data);
 
+        console.log("MyFavorite recipes");
+        console.log(this.recipes);
+        } catch (e) {
+          console.log(e);
+        } 
+    }
 }
 </script>
 

@@ -59,105 +59,47 @@
     </div>
   </template>
   
-  
-  
-  <script>
-  export default {
-    data() {
-      return {
-        recipe: null
-      };
-    },
-    computed: {
-      formattedInstructions() {
-        return this.recipe.instructions;
-      }
-    },
-    async created() {
-      try {
-        let response;
-        // response = this.$route.params.response;
-        console.log("this.$route.params.recipeId", this.$route.params.recipeId);
-        try {
-          response = await this.axios.get(
-            // "https://test-for-3-2.herokuapp.com/recipes/info",
-            this.$root.store.server_domain + "/users/myRecipes/"+this.$route.params.recipeId,
-            { withCredentials: true }
-          );
-          console.log("response", response);
 
-          // console.log("response.status", response.status);
-          if (response.status !== 200) this.$router.replace("/NotFound");
-        } catch (error) {
-          console.log("error.response.status", error.response.status);
-          this.$router.replace("/NotFound");
-          return;
-        }
-  
-  
-        let {
-          id,
-          title,
-          readyInMinutes,
-          image,
-          popularity,
-          vegan,
-          vegetarian,
-          glutenFree,
-          instructions,
-          servings,
-          ingredients
-        } = response.data;
-        // let {
-        //   analyzedInstructions,
-        //   instructions,
-        //   extendedIngredients,
-        //   aggregateLikes,
-        //   readyInMinutes,
-        //   image,
-        //   title
-        // } = response.data.recipe;
-  
-        // let _instructions = analyzedInstructions
-        //   .map((fstep) => {
-        //     fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-        //     return fstep.steps;
-        //   })
-        //   .reduce((a, b) => [...a, ...b], []);
-  
-        let _recipe = {
-          id,
-          title,
-          readyInMinutes,
-          image,
-          popularity,
-          vegan,
-          vegetarian,
-          glutenFree,
-          instructions,
-          servings,
-          ingredients
+  <script>
+    export default {
+      data() {
+        return {
+          recipe: null
         };
-        // let _recipe = {
-        //   instructions,
-        //   _instructions,
-        //   analyzedInstructions,
-        //   extendedIngredients,
-        //   aggregateLikes,
-        //   readyInMinutes,
-        //   image,
-        //   title
-        // };
-  
-        this.recipe = _recipe;
-        console.log("this.recipe", this.recipe);
-  
-      } catch (error) {
-        console.log(error);
-  
+      },
+      computed: {
+        formattedInstructions() {
+          return this.recipe.instructions;
+        }
+      },
+      async created() {
+        try {
+          let response;
+          // response = this.$route.params.response;
+          console.log("this.$route.params.recipeId", this.$route.params.recipeId);
+          try {
+            response = await this.axios.get(
+              // "https://test-for-3-2.herokuapp.com/recipes/info",
+              this.$root.store.server_domain + "/users/myRecipes/"+this.$route.params.recipeId,
+              { withCredentials: true }
+            );
+            console.log("response", response);
+
+            // console.log("response.status", response.status);
+            if (response.status !== 200) this.$router.replace("/NotFound");
+          } catch (error) {
+            console.log("error.response.status", error.response.status);
+            this.$router.replace("/NotFound");
+            return;
+          }
+
+          this.recipe = response.data[0];
+          console.log("this.recipe", this.recipe);
+        } catch (error) {
+          console.log(error); 
+        }
       }
-    }
-  };
+    };
   </script>
   
   <style scoped>

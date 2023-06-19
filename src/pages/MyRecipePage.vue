@@ -3,20 +3,16 @@
         <div id="background"></div>
         <h1>My Recipe</h1>
         <p>My Recipe Page</p>
-        <b-col v-for="recipe in recipes" :key="recipe.id">
-              <br>
-              <MyRecipePreview class="recipePreview" :recipe="recipe" />
-        </b-col>
+        <InternalRecipesGridCards :recipesArray="this.recipes" />
     </div>
-
 </template>
 
 <script>
-import MyRecipePreview from '../components/MyRecipePreview.vue';
+import InternalRecipesGridCards from '../components/InternalRecipesGridCards.vue';
 export default {
     name: 'MyRecipePage',
     components: {
-        MyRecipePreview,        
+        InternalRecipesGridCards       
     },
     data() {
         return {
@@ -40,16 +36,6 @@ export default {
           console.log(e);
         } 
     },
-     mounted() {
- 
-     },
-    methods: {
-        
-    },
-    computed: {
-        
-    }
-
 }
 </script>
 

@@ -1,59 +1,41 @@
 <template>
     <div>
         <div id="background"></div>
-
         <h1>My Family</h1>
         <p>My Family Page</p>
-        <b-col v-for="recipe in recipes" :key="recipe.id">
-              <br>
-              <MyRecipePreview class="recipePreview" :recipe="recipe" />
-        </b-col>
+        <InternalRecipesGridCards :recipesArray="this.recipes" />
     </div>
 </template>
 
 <script>
-import MyRecipePreview from '../components/MyRecipePreview.vue';
-
+import InternalRecipesGridCards from '../components/InternalRecipesGridCards.vue';
 export default {
     name: 'MyFamilyPage',
     components: {
-        MyRecipePreview,        
+      InternalRecipesGridCards,        
     },
     data() {
         return {
             recipes: [],
         }
-    },
+    }, 
     async created() {
-        console.log("Search Page created ");
-        try {
-          this.recipes = [];
-          const response = await this.axios.get(
-          this.$root.store.server_domain + "/users/familyRecipes",
-          { withCredentials: true }
-        );
-        console.log("Search Page response");
-        console.log(response);
-        this.recipes.push(...response.data);
+      try {
+        this.recipes = [];
+        const response = await this.axios.get(
+        this.$root.store.server_domain + "/users/familyRecipes",
+        { withCredentials: true }
+      );
+      console.log("MyFamilyPage response");
+      console.log(response);
+      this.recipes.push(...response.data);
 
-        console.log("Search Page recipes");
-        console.log(this.recipes);
-        // RecipePreviewListSearch.methods.updateRecipes2(recipes2);
-
-        } catch (e) {
-          console.log(e);
-        } 
+      console.log("MyFamilyPage recipes");
+      console.log(this.recipes);
+      } catch (e) {
+        console.log(e);
+      } 
     },
-     mounted() {
- 
-     },
-    methods: {
-        
-    },
-    computed: {
-        
-    }
-
 }
 </script>
 

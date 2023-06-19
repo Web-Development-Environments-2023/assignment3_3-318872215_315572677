@@ -49,6 +49,8 @@
       </b-col>
     </b-row>
 
+    <p>Search URL: {{ searchUrl }}</p>
+
   </div>
 </template>
 
@@ -80,10 +82,18 @@
           diet: ["Gluten Free", "Ketogenic", "Vegetarian", "Lacto-Vegetarian", "Ovo-Vegetarian", "Vegan", "Pescetarian", "Paleo", "Primal", "Whole30"],
           intolerance: ["Dairy", "Egg", "Gluten", "Grain", "Peanut", "Seafood", "Sesame", "Shellfish", "Soy", "Sulfite", "Tree Nut", "Wheat"],
           AmountOfResults: [1, 2, 3, 6]
-
-        }
+        },
+        searchUrl: null,
       }
     },
+
+    mounted() {
+      const storedValue = localStorage.getItem('search_url');
+      if (storedValue) {
+        this.searchUrl = JSON.parse(storedValue);
+      }
+    },
+
     computed: {
     recipeLines() {
       const recipesPerLine = 3;
@@ -122,13 +132,16 @@
           },
           { withCredentials: true }
         );
-        console.log("Search Page response");
-        console.log(response);
+        // console.log("Search Page response");
+        // console.log(response);
         this.recipes.push(...response.data);
 
+        console.log("##################################################################");
         console.log("Search Page recipes");
-        console.log(this.recipes);
-        // RecipePreviewListSearch.methods.updateRecipes2(recipes2);
+        console.log(this.formData);
+        this.$root.store.last_search(...this.formData);
+        console.log("##################################################################");
+
 
         } catch (e) {
           console.log(e);
