@@ -1,18 +1,20 @@
 <template>
   <div class="card" style="width: 18rem;">
     <router-link :to="{ name: 'recipe', params: { recipeId: recipe.id } }" class="recipe-preview">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-      <div class="card-body">
+      <img v-if="image_load" :src="recipe.image" class="recipe-image" alt="image from spooncalor"/>
+      <img v-else class="recipe-image" src="https://www.food4fuel.com/wp-content/uploads/woocommerce-placeholder-600x600.png" width="250" height="250"/>
+    </router-link>
+    <div class="card-body">
         <h5 class="recipe-title">{{ recipe.title }}</h5>
       </div>
-    </router-link>
+
     <ul class="recipe-overview">
       <li>{{ recipe.readyInMinutes }} minutes</li>
       <li>
         {{ recipe.popularity }} {{ recipe.aggregateLikes }} likes
         <!-- Like -->
         <img v-if="!like" class="button" src="../assets/before_like.png" width="30" height="30" @click="addLike(recipe.id)">
-        <img v-if="like" class="button" src="../assets/like.png" width="30" height="30">
+        <img v-if="like" src="../assets/like.png" width="30" height="30">
       </li>
       <template v-if="recipe.vegetarian">
         <img src="@/assets/vegetarian.png" width="60" height="60" id="icon" />
@@ -26,7 +28,7 @@
 
       <!-- favorite -->
       <img v-if="!favorites" class="button" src="../assets/before_favorite.png" width="40" height="40" @click="addFavorite(recipe.id)">
-      <img v-if="favorites" class="button" src="../assets/favorites.png" width="40" height="40">
+      <img v-if="favorites" src="../assets/favorites.png" width="40" height="40">
 
 
       <!-- Watch -->
@@ -57,7 +59,7 @@ export default {
   },
   data() {
     return {
-      image_load: true,
+      image_load: false,
       favorites: false,
       like: false,
       isWatch: false,
@@ -105,34 +107,51 @@ export default {
         } catch (e) {
           console.log(e);
         } 
+
+
+        try {
+          const response = await this.axios.get(
+          this.$root.store.server_domain + "/users/Like/"+ this.recipe.id,
+          { withCredentials: true }
+        );
+        console.log("like response");
+        console.log(response);
+        console.log("like response");
+        console.log(response.data);
+        this.like = response.data;
+
+        } catch (e) {
+          console.log(e);
+        } 
+
     },
 
     
 
   methods: {
 
-    // addLike(id) {
-    //   if (this.$root.store.username) {
-    //     this.axios
-    //       .post(
-    //         this.$root.store.server_domain + "/users/Like",
-    //         {
-    //           recipeId: id,
-    //         },
-    //         { withCredentials: true }
-    //       )
-    //       .then((response) => {
-    //         this.$root.toast("Add Like", "Like was added successfully", "success");
-    //         this.like = !this.like;
-    //         this.$emit("like", this.like);
-    //       })
-    //       .catch((error) => {
-    //         this.$root.toast("Add Like", "Like was not added", "danger");
-    //       });
-    //   }
-    //   else
-    //     this.$root.toast("Add to favorites", "Must login to like this recipe", "danger");
-    // },
+    addLike(id) {
+      if (this.$root.store.username) {
+        this.axios
+          .post(
+            this.$root.store.server_domain + "/users/Like",
+            {
+              recipeId: id,
+            },
+            { withCredentials: true }
+          )
+          .then((response) => {
+            this.$root.toast("Add Like", "Like was added successfully", "success");
+            this.like = !this.like;
+            this.$emit("like", this.like);
+          })
+          .catch((error) => {
+            this.$root.toast("Add Like", "Like was not added", "danger");
+          });
+      }
+      else
+        this.$root.toast("Add to favorites", "Must login to like this recipe", "danger");
+    },
 
 
     addFavorite(id) {
@@ -158,15 +177,6 @@ export default {
         this.$root.toast("Add to favorites", "Must login to add favorites", "danger");
     },
 
-
-    
-    // // watch
-    // watch() {
-    //   this.isWatch = !this.isWatch;
-    //   this.$emit("watch", this.isWatch);
-    // },
-
-
   },
 
 };
@@ -177,10 +187,21 @@ export default {
   width: 18rem;
 }
 
+.recipe-image:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
 .card .recipe-image {
   width: 100%;
   height: auto;
   object-fit: cover;
+}
+
+.card-body {
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+  text-align: center;
 }
 
 
@@ -220,12 +241,16 @@ export default {
 .recipe-preview .recipe-footer .recipe-title {
   padding: 10px 10px;
   width: 100%;
-  font-size: 12pt;
+  /* font-size: 12pt; */
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .recipe-preview .recipe-footer ul.recipe-overview {
