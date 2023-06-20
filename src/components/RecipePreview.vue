@@ -11,7 +11,7 @@
       </div>
 
     <ul class="recipe-overview">
-      <li>{{ recipe.readyInMinutes }} minutes</li>
+      <li>⏳ {{ recipe.readyInMinutes }} minutes</li>
       <li>
         {{ recipe.popularity }} {{ recipe.aggregateLikes }} likes
         <!-- Like -->

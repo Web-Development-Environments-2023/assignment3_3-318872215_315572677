@@ -9,7 +9,7 @@
         </div>
       </router-link>
       <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
+        <li>⏳ {{ recipe.readyInMinutes }} minutes</li>
         <template v-if="recipe.vegetarian">
           <img src="@/assets/vegetarian.png" width="60" height="60" id="icon" />
         </template>
