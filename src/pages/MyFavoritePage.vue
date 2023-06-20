@@ -2,7 +2,6 @@
     <div>
         <div id="background"></div>
         <h1>My Favorite</h1>
-        <p>My Favorite Page</p>
         <div class="grid" >
             <ExternalRecipesGridCards :recipesArray="this.recipes" />
         </div>

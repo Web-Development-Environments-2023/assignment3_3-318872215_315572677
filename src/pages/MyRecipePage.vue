@@ -2,7 +2,6 @@
     <div>
         <div id="background"></div>
         <h1>My Recipe</h1>
-        <p>My Recipe Page</p>
         <div class="grid" >
             <InternalRecipesGridCards :recipesArray="this.recipes" />
         </div>

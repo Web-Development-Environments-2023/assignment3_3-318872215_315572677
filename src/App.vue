@@ -30,7 +30,7 @@
         <div v-if="!!$root.store.username" class="dropdown">
           <button class="dropdown-button"><span>{{ $root.store.username }}</span></button>
           <div class="dropdown-content">
-            <tr><router-link :to="{ name: 'account' }">Account⚙️</router-link></tr>
+            <!-- <tr><router-link :to="{ name: 'account' }">Account⚙️</router-link></tr> -->
             <tr><button class="logout-btn" @click="Logout">Logout😥</button></tr>
           </div>
         </div>
@@ -110,6 +110,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 // #nav {
@@ -260,6 +262,8 @@ header a:hover {
 //~~~~~~~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~~~~~~~
 main {
   padding: 10px;
+  flex: 1; /* Take up remaining vertical space */
+
 }
 .main-section {
   background-image: linear-gradient(to bottom right, #ff8c00, #ff0080);
@@ -319,6 +323,7 @@ main {
 
 //~~~~~~~~~~~~~~~~~~~~ FOOTER ~~~~~~~~~~~~~~~~~~~~
 footer {
+  margin-top: auto; /* Push the footer to the bottom */
   background-color: #333;
   color: white;
 }
