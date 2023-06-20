@@ -3,7 +3,9 @@
         <div id="background"></div>
         <h1>My Recipe</h1>
         <p>My Recipe Page</p>
-        <InternalRecipesGridCards :recipesArray="this.recipes" />
+        <div class="grid" >
+            <InternalRecipesGridCards :recipesArray="this.recipes" />
+        </div>
     </div>
 </template>
 
@@ -52,4 +54,10 @@ export default {
   z-index: -1;
   opacity: 0.5;
 }
+
+.grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
 </style>

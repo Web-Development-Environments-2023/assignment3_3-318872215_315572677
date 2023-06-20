@@ -41,13 +41,9 @@
 
       <button class="btn btn-primary" type="submit">Search</button>
     </form>
-
-    <b-row v-for="(recipeLine, index) in recipeLines" :key="index" class="recipe-line">
-      <b-col v-for="recipe in recipeLine" :key="recipe.id">
-        <br>
-              <RecipePreview class="recipePreview" :recipe="recipe" />
-      </b-col>
-    </b-row>
+    <div class="grid" >
+        <ExternalRecipesGridCards :recipesArray="this.recipes" />
+    </div>
 
     <p>Search URL: {{ searchUrl }}</p>
 
@@ -56,12 +52,10 @@
 
 
 <script>
-  // import RecipePreviewListSearch from "../components/RecipePreviewListSearch";
-  import RecipePreview from '../components/RecipePreview.vue';
+import ExternalRecipesGridCards from '../components/ExternalRecipesGridCards.vue';
   export default {
     components: {
-      RecipePreview,
-      // RecipePreviewListSearch,
+      ExternalRecipesGridCards
     },
     name: 'SearchPage',
     data() {
@@ -165,4 +159,10 @@
   z-index: -1;
   opacity: 0.5;
 }
+
+.grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
 </style>

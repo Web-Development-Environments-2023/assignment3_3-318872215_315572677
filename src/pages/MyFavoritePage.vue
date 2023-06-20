@@ -3,7 +3,9 @@
         <div id="background"></div>
         <h1>My Favorite</h1>
         <p>My Favorite Page</p>
-        <ExternalRecipesGridCards :recipesArray="this.recipes" />
+        <div class="grid" >
+            <ExternalRecipesGridCards :recipesArray="this.recipes" />
+        </div>
     </div>
 </template>
 
@@ -52,4 +54,10 @@ export default {
   z-index: -1;
   opacity: 0.5;
 }
+
+.grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
 </style>

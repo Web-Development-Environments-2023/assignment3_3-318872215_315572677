@@ -3,8 +3,11 @@
         <div id="background"></div>
         <h1>My Family</h1>
         <p>My Family Page</p>
-        <InternalRecipesGridCards :recipesArray="this.recipes" />
-    </div>
+
+        <div class="grid" >
+            <InternalRecipesGridCards :recipesArray="this.recipes" />
+        </div>
+      </div>
 </template>
 
 <script>
@@ -52,4 +55,10 @@ export default {
   z-index: -1;
   opacity: 0.5;
 }
+
+.grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
 </style>

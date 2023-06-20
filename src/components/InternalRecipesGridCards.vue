@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="width: 80rem;">
       <b-row v-for="(recipeLine, index) in recipeLines" :key="index" class="recipe-line">
           <b-col v-for="recipe in recipeLine" :key="recipe.id">
               <br>
@@ -24,7 +24,7 @@ export default {
     },
     computed: {
       recipeLines() {
-        const recipesPerLine = 3;
+        const recipesPerLine = 4;
         const lines = [];
         let currentLine = [];
 
@@ -45,3 +45,9 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+
+
+
+</style>

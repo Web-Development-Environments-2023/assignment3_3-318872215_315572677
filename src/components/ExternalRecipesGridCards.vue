@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="external-recipes-grid-cards" style="width: 80rem;">
       <b-row v-for="(recipeLine, index) in recipeLines" :key="index" class="recipe-line">
           <b-col v-for="recipe in recipeLine" :key="recipe.id">
               <br>
@@ -45,3 +45,9 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+
+
+
+</style>

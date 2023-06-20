@@ -1,8 +1,10 @@
 <template>
   <div class="card" style="width: 18rem;">
     <router-link :to="{ name: 'recipe', params: { recipeId: recipe.id } }" class="recipe-preview">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" alt="image from spooncalor"/>
-      <img v-else class="recipe-image" src="https://www.food4fuel.com/wp-content/uploads/woocommerce-placeholder-600x600.png" width="250" height="250"/>
+      <img :src="recipe.image" class="recipe-image" alt="image from spooncalor"/>
+
+      <!-- <img v-if="image_load" :src="recipe.image" class="recipe-image" alt="image from spooncalor"/>
+      <img v-else class="recipe-image" src="https://www.food4fuel.com/wp-content/uploads/woocommerce-placeholder-600x600.png" width="250" height="250"/> -->
     </router-link>
     <div class="card-body">
         <h5 class="recipe-title">{{ recipe.title }}</h5>
@@ -47,15 +49,17 @@ export default {
     // this.axios.get(this.recipe.image).then((i) => {
     //   this.image_load = true;
     // });
+    if (this.recipe.image == null)
+      this.recipe.image = "https://www.food4fuel.com/wp-content/uploads/woocommerce-placeholder-600x600.png";
 
-    this.axios
-      .get(this.recipe.image, {
-        headers: { "Access-Control-Allow-Origin": "*" },
-      })
-      .then((res) => {
-        this.image_load = true;
-      })
-      .catch((err) => console.log(err));
+    // this.axios
+    //   .get(this.recipe.image, {
+    //     headers: { "Access-Control-Allow-Origin": "*" },
+    //   })
+    //   .then((res) => {
+    //     this.image_load = true;
+    //   })
+    //   .catch((err) => console.log(err));
   },
   data() {
     return {
@@ -73,6 +77,7 @@ export default {
   },
   
   async created() {
+        console.log("this.recipe @@ ", this.recipe);
         console.log("Get favorites items created ");
         try {
           const response = await this.axios.get(
