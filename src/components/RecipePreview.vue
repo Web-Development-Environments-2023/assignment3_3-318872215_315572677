@@ -8,7 +8,7 @@
     </router-link>
     <div class="card-body">
         <h5 class="recipe-title">{{ recipe.title }}</h5>
-      </div>
+    </div>
 
     <ul class="recipe-overview">
       <li>⏳ {{ recipe.readyInMinutes }} minutes</li>

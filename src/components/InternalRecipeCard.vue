@@ -3,13 +3,18 @@
       <router-link :to="{ name: 'myRecipeView', params: { recipeId: recipe.recipes_id } }" class="recipe-preview">
       <!-- <router-link :to="{ name: 'recipe', params: { recipeId: recipe.id } }" class="recipe-preview"> -->
         <img :src="recipe.image" class="recipe-image" alt="image from spooncalor"/>
-
-        <div class="card-body">
-          <h5 class="recipe-title">{{ recipe.title }}</h5>
-        </div>
       </router-link>
+      <div class="card-body">
+          <h5 class="recipe-title">{{ recipe.title }}</h5>
+      </div>
       <ul class="recipe-overview">
         <li>⏳ {{ recipe.ready_in_minutes }} minutes</li>
+        <li>
+        0 likes
+          <!-- Like -->
+          <img v-if="!like" class="button" src="../assets/before_like.png" width="30" height="30" @click="addLike(recipe.id)">
+          <img v-if="like" src="../assets/like.png" width="30" height="30">
+        </li>
         <template v-if="recipe.vegetarian">
           <img src="@/assets/vegetarian.png" width="60" height="60" id="icon" />
         </template>
@@ -20,6 +25,10 @@
           <img src="@/assets/vegan.jpg" width="60" height="60" id="icon" />
         </template>
       </ul>
+
+        <!-- favorite -->
+        <img v-if="!favorites" class="button" src="../assets/before_favorite.png" width="40" height="40" @click="addFavorite(recipe.id)">
+        <img v-if="favorites" src="../assets/favorites.png" width="40" height="40">
     </div>
 </template>
 
@@ -36,7 +45,9 @@ export default {
   },
   data() {
     return {
-      image_load: false
+      image_load: false,
+      like: false,
+      favorites: false
     };
   },
   props: {
@@ -68,7 +79,33 @@ export default {
     //     return undefined;
     //   }
     // }
-  }
+  },
+
+  methods: {
+
+    addLike(id) {
+      if (this.$root.store.username) {
+        this.$root.toast("Add Like", "Like was added successfully", "success");
+        this.like = !this.like;
+        this.$emit("like", this.like);
+      }
+      else
+        this.$root.toast("Add to favorites", "Must login to like this recipe", "danger");
+    },
+
+
+    addFavorite(id) {
+      if (this.$root.store.username) {
+        this.$root.toast("Add to favorites", "Recipe was added successfully", "success");
+          this.favorites = !this.favorites;
+          this.$emit("like", this.favorites);
+      }
+      else
+        this.$root.toast("Add to favorites", "Must login to add favorites", "danger");
+    },
+
+  },
+
 };
 </script>
 
@@ -158,5 +195,15 @@ export default {
   width: 90px;
   display: table-cell;
   text-align: center;
+}
+.recipe-image:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.button
+{
+  cursor: pointer;
+  margin: 20px;
 }
 </style>

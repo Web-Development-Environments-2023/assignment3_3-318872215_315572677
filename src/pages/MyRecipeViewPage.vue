@@ -109,7 +109,34 @@
         } catch (error) {
           console.log(error); 
         }
-      }
+      },
+
+    methods: {
+
+        addLike(id) {
+          if (this.$root.store.username) {
+            this.$root.toast("Add Like", "Like was added successfully", "success");
+            this.like = !this.like;
+            this.$emit("like", this.like);
+          }
+          else
+            this.$root.toast("Add to favorites", "Must login to like this recipe", "danger");
+        },
+
+
+        addFavorite(id) {
+          if (this.$root.store.username) {
+            this.$root.toast("Add to favorites", "Recipe was added successfully", "success");
+              this.favorites = !this.favorites;
+              this.$emit("like", this.favorites);
+          }
+          else
+            this.$root.toast("Add to favorites", "Must login to add favorites", "danger");
+        },
+
+        },
+
+
     };
   </script>
   

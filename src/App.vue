@@ -4,8 +4,8 @@
       <div class="header-container">
         <div class="header-left">
           <!-- left bar nav -->
-          <img src="@/assets/logoMain.png" width="85" height="85" id="icon" />
-          <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
+          
+          <router-link :to="{ name: 'main' }"><img src="@/assets/logoMain.png" width="85" height="85" id="icon" />Vue Recipes</router-link>|
           <router-link :to="{ name: 'search' }">Search 🔎</router-link>|
           <router-link :to="{ name: 'about' }">About</router-link>|
 
