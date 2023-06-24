@@ -41,6 +41,14 @@
                     <strong>Servings: </strong>
                     <span class="text-muted">{{ recipe.servings }} servings</span>
                   </div>
+                  <div v-if="recipe.creatorBy">
+                    <strong>Who is the genius: </strong>
+                    <span class="text-muted">{{ recipe.creatorBy }}</span>
+                  </div>
+                  <div v-if="recipe.usualTime">
+                    <strong>Usual time to prepared: </strong>
+                    <span class="text-muted">{{ recipe.usualTime }} </span>
+                  </div>
                 </div>
               </div>
               <div class="mb-4">
@@ -71,6 +79,7 @@
 
   <script>
     export default {
+      name: "MyRecipeViewPage",
       data() {
         return {
           recipe: null,
@@ -89,20 +98,21 @@
           // response = this.$route.params.response;
           console.log("this.$route.params.recipeId", this.$route.params.recipeId);
           try {
-            response = await this.axios.get(
-              // "https://test-for-3-2.herokuapp.com/recipes/info",
-              this.$root.store.server_domain + "/users/myRecipes/"+this.$route.params.recipeId,
-              { withCredentials: true }
-            );
-            console.log("response", response);
+              response = await this.axios.get(
+                // "https://test-for-3-2.herokuapp.com/recipes/info",
+                this.$root.store.server_domain + "/users/myRecipes/"+this.$route.params.recipeId,
+                { withCredentials: true }
+              );
+              console.log("response", response);
 
-            // console.log("response.status", response.status);
-            if (response.status !== 200) this.$router.replace("/NotFound");
-          } catch (error) {
-            console.log("error.response.status", error.response.status);
-            this.$router.replace("/NotFound");
-            return;
-          }
+              // console.log("response.status", response.status);
+              if (response.status !== 200) this.$router.replace("/NotFound");
+            } catch (error) {
+              console.log("error.response.status", error.response.status);
+              this.$router.replace("/NotFound");
+              return;
+            }
+
 
           this.recipe = response.data[0];
           console.log("this.recipe", this.recipe);

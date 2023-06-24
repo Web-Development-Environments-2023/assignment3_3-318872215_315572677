@@ -1,6 +1,6 @@
 <template>
     <div class="card" style="width: 18rem;">
-      <router-link :to="{ name: 'myRecipeView', params: { recipeId: recipe.recipes_id } }" class="recipe-preview">
+      <router-link :to="{ name: 'myRecipeView', params: { recipeId: recipe.recipes_id} }" class="recipe-preview">
       <!-- <router-link :to="{ name: 'recipe', params: { recipeId: recipe.id } }" class="recipe-preview"> -->
         <img :src="recipe.image" class="recipe-image" alt="image from spooncalor"/>
       </router-link>
@@ -15,6 +15,8 @@
           <img v-if="!like" class="button" src="../assets/before_like.png" width="30" height="30" @click="addLike(recipe.id)">
           <img v-if="like" src="../assets/like.png" width="30" height="30">
         </li>
+        <li v-if="recipe.creatorBy">            Who is the genius? {{ recipe.creatorBy }}         </li>
+        <li v-if="recipe.usualTime">           Usual time to prepared: {{ recipe.usualTime }}         </li>
         <template v-if="recipe.vegetarian">
           <img src="@/assets/vegetarian.png" width="60" height="60" id="icon" />
         </template>
