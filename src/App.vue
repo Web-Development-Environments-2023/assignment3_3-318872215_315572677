@@ -4,6 +4,7 @@
       <div class="header-container">
         <div class="header-left">
           <!-- left bar nav -->
+          <img src="@/assets/logoMain.png" width="85" height="85" id="icon" />
           <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
           <router-link :to="{ name: 'search' }">Search 🔎</router-link>|
           <router-link :to="{ name: 'about' }">About</router-link>|
@@ -35,14 +36,6 @@
           </div>
         </div>
 
-        <!-- <div v-else class="user-login">
-          <button class="dropdown-button"><span>{{ $root.store.username }}</span></button>
-          <div class="dropdown-content">
-            <tr><router-link :to="{ name: 'account' }">Account</router-link></tr>
-            <tr><button @click="Logout">Logout</button></tr>
-          </div>
-          <button @click="Logout">Logout</button>
-        </div> -->
       </div>
     </header>
 
@@ -55,6 +48,13 @@
       <router-view />
     </main>
 
+    <!-- Video section -->
+    <!-- <div class="video-container">
+      <video controls autoplay>
+        <source src="@/assets/main.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div> -->
 
     <!-- Model for create recipe -->
     <b-modal ref="recipe-modal" hide-footer title="Create new recipe" size="xl">
@@ -81,7 +81,7 @@ export default {
     name: "App",
     data() {
         return {
-            showCreateRecipe: false
+            showCreateRecipe: false,
         };
     },
     methods: {
@@ -333,5 +333,14 @@ footer {
   font-size: 18px;
 }
 
+
+//~~~~~~~~~~~~~~~~~~~~ RECIPE VIEDO ~~~~~~~~~~~~~~~~~~~~
+// .video-container {
+//   position: relative;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-top: 20px;
+// }
 
 </style>

@@ -9,6 +9,17 @@
           <div class="row">
             <div class="col-md-6">
               <div class="mb-4">
+
+
+              <!-- Like -->
+              <img v-if="!like" class="button" src="../assets/before_like.png" width="30" height="30" @click="addLike(recipe.id)">
+              <img v-if="like" src="../assets/like.png" width="30" height="30">
+
+              <!-- favorite -->
+              <img v-if="!favorites" class="button" src="../assets/before_favorite.png" width="40" height="40" @click="addFavorite(recipe.id)">
+              <img v-if="favorites" src="../assets/favorites.png" width="40" height="40">
+
+
                 <h3>Recipe Details</h3>
                 <hr />
                 <template v-if="recipe.vegetarian">
@@ -64,7 +75,9 @@
     export default {
       data() {
         return {
-          recipe: null
+          recipe: null,
+          favorites: false,
+          like: false,
         };
       },
       computed: {
@@ -115,8 +128,10 @@
     margin-right: auto;
     width: 50%;
   }
-  /* .recipe-header{
-  
-  } */
+  .button
+{
+  cursor: pointer;
+  margin: 20px;
+}
   </style>
   

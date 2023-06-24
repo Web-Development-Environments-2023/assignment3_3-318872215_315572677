@@ -9,6 +9,15 @@
         <div class="row">
           <div class="col-md-6">
             <div class="mb-4">
+
+              <!-- Like -->
+              <img v-if="!like" class="button" src="../assets/before_like.png" width="30" height="30" @click="addLike(recipe.id)">
+              <img v-if="like" src="../assets/like.png" width="30" height="30">
+
+              <!-- favorite -->
+              <img v-if="!favorites" class="button" src="../assets/before_favorite.png" width="40" height="40" @click="addFavorite(recipe.id)">
+              <img v-if="favorites" src="../assets/favorites.png" width="40" height="40">
+
               <h3>Recipe Details</h3>
               <hr />
               <template v-if="recipe.vegetarian">
@@ -65,7 +74,9 @@
 export default {
   data() {
     return {
-      recipe: null
+      recipe: null,
+      favorites: false,
+      like: false,
     };
   },
   computed: {
@@ -161,7 +172,92 @@ export default {
       console.log(error);
 
     }
-  }
+
+    try {
+        const response = await this.axios.get(
+        this.$root.store.server_domain + "/users/favorites/"+ this.recipe.id,
+        { withCredentials: true }
+      );
+      console.log("favorites items response");
+      console.log(response);
+      console.log("data response");
+      console.log(response.data);
+      this.favorites = response.data;  
+    }
+    catch (e) {
+        console.log(e);
+    } 
+
+    try {
+      const response = await this.axios.get(
+      this.$root.store.server_domain + "/users/Like/"+ this.recipe.id,
+      { withCredentials: true }
+    );
+    console.log("like response");
+    console.log(response);
+    console.log("like response");
+    console.log(response.data);
+    this.like = response.data;
+
+    } catch (e) {
+      console.log(e);
+    } 
+
+    
+  },
+
+  methods: {
+
+  addLike(id) {
+    if (this.$root.store.username) {
+      this.axios
+        .post(
+          this.$root.store.server_domain + "/users/Like",
+          {
+            recipeId: id,
+          },
+          { withCredentials: true }
+        )
+        .then((response) => {
+          this.$root.toast("Add Like", "Like was added successfully", "success");
+          this.like = !this.like;
+          this.$emit("like", this.like);
+        })
+        .catch((error) => {
+          this.$root.toast("Add Like", "Like was not added", "danger");
+        });
+    }
+    else
+      this.$root.toast("Add to favorites", "Must login to like this recipe", "danger");
+  },
+
+
+  addFavorite(id) {
+    if (this.$root.store.username) {
+      this.axios
+        .post(
+          this.$root.store.server_domain + "/users/favorites",
+          {
+            recipeId: id,
+          },
+          { withCredentials: true }
+        )
+        .then((response) => {
+          this.$root.toast("Add to favorites", "Recipe was added successfully", "success");
+          this.favorites = !this.favorites;
+          this.$emit("like", this.favorites);
+        })
+        .catch((error) => {
+          this.$root.toast("Add to favorites", "Recipe was not added", "danger");
+        });
+    }
+    else
+      this.$root.toast("Add to favorites", "Must login to add favorites", "danger");
+  },
+
+  },
+
+
 };
 </script>
 
@@ -178,7 +274,9 @@ export default {
   margin-right: auto;
   width: 50%;
 }
-/* .recipe-header{
-
-} */
+.button
+{
+  cursor: pointer;
+  margin: 20px;
+}
 </style>
