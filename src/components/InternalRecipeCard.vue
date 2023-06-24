@@ -2,14 +2,14 @@
     <div class="card" style="width: 18rem;">
       <router-link :to="{ name: 'myRecipeView', params: { recipeId: recipe.recipes_id } }" class="recipe-preview">
       <!-- <router-link :to="{ name: 'recipe', params: { recipeId: recipe.id } }" class="recipe-preview"> -->
+        <img :src="recipe.image" class="recipe-image" alt="image from spooncalor"/>
 
-        <img v-if="image_load" :src="recipe.image" class="recipe-image" />
         <div class="card-body">
           <h5 class="recipe-title">{{ recipe.title }}</h5>
         </div>
       </router-link>
       <ul class="recipe-overview">
-        <li>⏳ {{ recipe.readyInMinutes }} minutes</li>
+        <li>⏳ {{ recipe.ready_in_minutes }} minutes</li>
         <template v-if="recipe.vegetarian">
           <img src="@/assets/vegetarian.png" width="60" height="60" id="icon" />
         </template>
@@ -27,6 +27,9 @@
 <script>
 export default {
   mounted() {
+    if (this.recipe.image == null)
+      this.recipe.image = "https://www.food4fuel.com/wp-content/uploads/woocommerce-placeholder-600x600.png";
+
     this.axios.get(this.recipe.image).then((i) => {
       this.image_load = true;
     });

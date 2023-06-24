@@ -34,15 +34,11 @@
      
                 <div >
                   <div class="me-4">
-                    <strong>Ready in:</strong>
-                    <span class="text-muted">{{ recipe.readyInMinutes }} minutes </span>
+                    <strong>Ready in: </strong>
+                    <span class="text-muted">{{ recipe.ready_in_minutes }} minutes </span>
                   </div>
                   <div>
-                    <strong>Likes:</strong>
-                    <span class="text-muted">{{ recipe.popularity }} likes </span>
-                  </div>
-                  <div>
-                    <strong>Servings :</strong>
+                    <strong>Servings: </strong>
                     <span class="text-muted">{{ recipe.servings }} servings</span>
                   </div>
                 </div>
@@ -51,7 +47,9 @@
                 <h3>Ingredients</h3>
                 <hr />
                 <ul>
-                  <li v-for="(r, index) in recipe.ingredients" :key="index + '_' + r.id">{{ r.original }}</li>
+                  <!-- <li v-for="(r, index) in recipe.ingredients" :key="index + '_' + r.id">{{ r.original }}</li> -->
+                  <li v-for="(r, index) in recipe.ingredients" :key="index + '_' + r.id">{{ r.name }}</li>
+
                 </ul>
               </div>
             </div>

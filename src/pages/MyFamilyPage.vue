@@ -2,8 +2,6 @@
     <div>
         <div id="background"></div>
         <h1>My Family</h1>
-        <p>My Family Page</p>
-
         <div class="grid" >
             <InternalRecipesGridCards :recipesArray="this.recipes" />
         </div>
