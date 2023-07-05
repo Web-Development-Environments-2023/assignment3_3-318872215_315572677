@@ -1,18 +1,26 @@
 <template>
-  <div class="container">
-    <h1 class="title">Main Page</h1>
-    <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" />
-    <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link>
-    {{ !$root.store.username }}
-    <RecipePreviewList
-      title="Last Viewed Recipes"
-      :class="{
-        RandomRecipes: true,
-        blur: !$root.store.username,
-        center: true
-      }"
-      disabled
-    ></RecipePreviewList>
+  <div id="main-container">
+    <div id="background"></div>
+
+    <!-- <h1 class="title">Grandma's recipes and others</h1> -->
+      <b-row>
+        <b-col cols="3" class="left-column">
+          <RecipePreviewList title="Explore this recipes" class="RandomRecipes center" :recipes="randomRecipes || []" /> 
+        </b-col>
+        <b-col cols="6">
+          
+        </b-col>
+        <b-col cols="3" class="right-column">
+          <Login v-if="!$root.store.username"></Login>
+
+          <RecipePreviewListWatched v-else title="Last watched recipes" :recipes="lastWatchedRecipes || []" />
+          
+          <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to view this</router-link> -->
+          <!-- <RecipePreviewListWatched title="Last Viewed Recipes" :class="{RandomRecipes: true, blur: !$root.store.username, center: true}" disabled>
+          </RecipePreviewListWatched> -->
+        </b-col>
+      </b-row>
+   
     <!-- <div
       style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
     >
@@ -23,16 +31,48 @@
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
+import RecipePreviewListWatched from "../components/RecipePreviewListWatched.vue";
+import Login from "../pages/LoginPage.vue";
 export default {
   components: {
-    RecipePreviewList
-  }
+    RecipePreviewList,
+    RecipePreviewListWatched,
+    Login
+  },
+  data() {
+    return {
+      randomRecipes: [],
+      lastWatchedRecipes: []
+    };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+#main-container{
+  height: 100vh;
+  width: 100vw;
+}
+// .column-container {
+//   display: flex;
+//   justify-content: space-between;
+//   height: 100vh;
+//   width: 100vw;
+// }
+
+// .left-column {
+//   float: left;
+// }
+
+// .right-column {
+//   float: right;
+// }
+.title{
+  margin-bottom: 20px;
+}
 .RandomRecipes {
   margin: 10px 0 10px;
+  position: relative;
 }
 .blur {
   -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
@@ -41,5 +81,17 @@ export default {
 ::v-deep .blur .recipe-preview {
   pointer-events: none;
   cursor: default;
+}
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../assets/food-background.jpg);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.5;
 }
 </style>

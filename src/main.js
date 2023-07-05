@@ -2,13 +2,22 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
+// axios.defaults.withCredentials = true;
+import VueScrollFixedNavbar from "vue-scroll-fixed-navbar";
+import VueCookies from 'vue-cookies'
+Vue.use(VueScrollFixedNavbar);
 
 import routes from "./routes";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
+Vue.use(VueCookies);
 const router = new VueRouter({
   routes,
 });
+
+
+
+
 
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
@@ -24,6 +33,14 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  FormRadioPlugin,
+  ModalPlugin,
+  FormCheckboxPlugin,
+  FormTextareaPlugin,
+  ListGroupPlugin,
+
+
+
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -36,6 +53,15 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  FormRadioPlugin,
+  FormCheckboxPlugin,
+  ModalPlugin,
+  FormTextareaPlugin,
+  ListGroupPlugin,
+
+
+  
+
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
@@ -68,19 +94,32 @@ Vue.config.productionTip = false;
 
 const shared_data = {
   username: localStorage.username,
+  // user_
+  search_url_: localStorage.search_url_,
+  server_domain: "http://localhost:3000" || "http://127.0.0.1:3000",
+  // server_domain:  "https://oran-shay.cs.bgu.ac.il",
   login(username) {
     localStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
+    // VueCookies.set(this.username, this.username);
   },
   logout() {
     console.log("logout");
+    // VueCookies.remove(this.username);
     localStorage.removeItem("username");
     this.username = undefined;
+    localStorage.removeItem("search_url_");
+    this.search_url_ = undefined;
+    
+  },
+  last_search(search_url){
+    localStorage.setItem("search_url_", search_url);
+    this.search_url_ = search_url;
+    console.log("last search");
   },
 };
 console.log(shared_data);
-// Vue.prototype.$root.store = shared_data;
 
 new Vue({
   router,
