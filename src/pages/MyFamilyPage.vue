@@ -25,7 +25,9 @@ export default {
         this.recipes = [];
         const response = await this.axios.get(
         this.$root.store.server_domain + "/users/familyRecipes",
-        { withCredentials: true }
+        { withCredentials: true,
+          params: { recipeFamily: this.$route.query.recipeFamily}
+        }
       );
       console.log("MyFamilyPage response");
       console.log(response);

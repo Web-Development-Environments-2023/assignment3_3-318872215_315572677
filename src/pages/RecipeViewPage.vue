@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div id="background2"></div>
     <div v-if="recipe">
       <div class="recipe-header mt-3 mb-4">
         <h1 class="text-center">{{ recipe.title }}</h1>
@@ -278,5 +279,17 @@ export default {
 {
   cursor: pointer;
   margin: 20px;
+}
+#background2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../assets/inside\ food.jpg);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.5;
 }
 </style>

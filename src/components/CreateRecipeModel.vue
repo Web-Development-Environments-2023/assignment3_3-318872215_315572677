@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div id="background3">
     <!-- left side model -->
     <div class="left">
       <b-form @submit.prevent="createRecipeForm" @reset.prevent="resetForm">
@@ -106,7 +107,7 @@
                 </b-form-group>
             </div>
         </div>
-
+      </div>
 
     <!-- end right div -->
     </div>
@@ -353,5 +354,18 @@ margin-top: 20px;
   color: #3c763d;
   padding: 10px;
   margin-bottom: 10px;
+}
+
+#background3 {
+  background-image: url(../assets/modelImage.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 80vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
 }
 </style>

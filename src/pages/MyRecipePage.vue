@@ -15,6 +15,7 @@ export default {
     components: {
         InternalRecipesGridCards       
     },
+
     data() {
         return {
             recipes: [],
@@ -25,7 +26,10 @@ export default {
           this.recipes = [];
           const response = await this.axios.get(
           this.$root.store.server_domain + "/users/myRecipes",
-          { withCredentials: true }
+          // this.$root.store.server_domain + "/users/familyRecipes",
+          { withCredentials: true,
+            query: { recipeFamily: this.$route.query.recipeFamily }
+          }
         );
         console.log("MyRecipePage response");
         console.log(response);

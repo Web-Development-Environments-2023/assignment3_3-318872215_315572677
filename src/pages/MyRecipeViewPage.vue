@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+      <div id="background2"></div>
       <div v-if="recipe">
         <div class="recipe-header mt-3 mb-4">
           <h1 class="text-center">{{ recipe.title }}</h1>
@@ -41,14 +42,17 @@
                     <strong>Servings: </strong>
                     <span class="text-muted">{{ recipe.servings }} servings</span>
                   </div>
-                  <div v-if="recipe.creatorBy">
+                  
+                  <div v-if="recipe.isFamily">
                     <strong>Who is the genius: </strong>
                     <span class="text-muted">{{ recipe.creatorBy }}</span>
                   </div>
-                  <div v-if="recipe.usualTime">
+                  <div v-if="recipe.isFamily">
                     <strong>Usual time to prepared: </strong>
                     <span class="text-muted">{{ recipe.usualTime }} </span>
                   </div>
+
+
                 </div>
               </div>
               <div class="mb-4">
@@ -95,14 +99,25 @@
       async created() {
         try {
           let response;
+          let isRecipeFamily = this.$route.query.recipeFamily;
           // response = this.$route.params.response;
+          console.log("#############################################################");
           console.log("this.$route.params.recipeId", this.$route.params.recipeId);
+          console.log("this.$route.query.recipeFamily", this.$route.query.recipeFamily );
+          console.log("isRecipeFamily", isRecipeFamily);
+          console.log("#############################################################");
+
           try {
-              response = await this.axios.get(
-                // "https://test-for-3-2.herokuapp.com/recipes/info",
-                this.$root.store.server_domain + "/users/myRecipes/"+this.$route.params.recipeId,
-                { withCredentials: true }
-              );
+            
+            response = await this.axios.get(
+              this.$root.store.server_domain + "/users/myRecipes/" + this.$route.params.recipeId,
+              {
+                withCredentials: true,
+                params: {
+                  recipeFamily: isRecipeFamily
+                }
+              }
+            );
               console.log("response", response);
 
               // console.log("response.status", response.status);
@@ -167,6 +182,19 @@
 {
   cursor: pointer;
   margin: 20px;
+}
+
+#background2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../assets/inside\ food.jpg);
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.5;
 }
   </style>
   
